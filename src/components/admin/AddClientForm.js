@@ -13,6 +13,7 @@ function AddClientForm({ addOrder, setActiveView }) {
     paymentStatus: 'Unpaid',
     paymentMethod: 'Cash',
     amount: '',
+    advanceAmount: '',
     measurements: {
       chest: '',
       waist: '',
@@ -44,6 +45,11 @@ function AddClientForm({ addOrder, setActiveView }) {
     if (!formData.address.trim()) newErrors.address = 'Address is required';
     if (!formData.fabricType.trim()) newErrors.fabricType = 'Fabric type is required';
     if (!formData.amount || formData.amount <= 0) newErrors.amount = 'Valid amount is required';
+    
+    // Validate advance amount
+    if (formData.advanceAmount && (formData.advanceAmount < 0 || formData.advanceAmount > formData.amount)) {
+      newErrors.advanceAmount = 'Advance amount cannot be negative or greater than total amount';
+    }
 
     // Check at least some measurements are provided
     const hasMeasurements = Object.values(formData.measurements).some(val => val.trim() !== '');
@@ -56,7 +62,26 @@ function AddClientForm({ addOrder, setActiveView }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => {
+      const newData = { ...prev, [name]: value };
+      
+      // Auto-set payment status based on advance amount
+      if (name === 'advanceAmount' || name === 'amount') {
+        const totalAmount = parseFloat(newData.amount) || 0;
+        const advanceAmount = parseFloat(newData.advanceAmount) || 0;
+        
+        if (advanceAmount === 0) {
+          newData.paymentStatus = 'Unpaid';
+        } else if (advanceAmount >= totalAmount) {
+          newData.paymentStatus = 'Paid';
+        } else {
+          newData.paymentStatus = 'Partial';
+        }
+      }
+      
+      return newData;
+    });
+    
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -296,7 +321,7 @@ function AddClientForm({ addOrder, setActiveView }) {
               </div>
 
               <div>
-                <label className="block text-gray-700 font-semibold mb-2">Amount *</label>
+                <label className="block text-gray-700 font-semibold mb-2">Total Amount *</label>
                 <input
                   type="number"
                   name="amount"
@@ -311,6 +336,22 @@ function AddClientForm({ addOrder, setActiveView }) {
               </div>
 
               <div>
+                <label className="block text-gray-700 font-semibold mb-2">Advance Amount</label>
+                <input
+                  type="number"
+                  name="advanceAmount"
+                  value={formData.advanceAmount}
+                  onChange={handleChange}
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                    errors.advanceAmount ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  placeholder="1000"
+                />
+                {errors.advanceAmount && <p className="mt-1 text-sm text-red-600">{errors.advanceAmount}</p>}
+                <p className="mt-1 text-sm text-gray-500">Optional: Enter advance payment amount if client pays upfront</p>
+              </div>
+
+              <div>
                 <label className="block text-gray-700 font-semibold mb-2">Payment Status *</label>
                 <select
                   name="paymentStatus"
@@ -319,6 +360,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
                   <option value="Paid">Paid</option>
+                  <option value="Partial">Partial</option>
                   <option value="Unpaid">Unpaid</option>
                 </select>
               </div>
