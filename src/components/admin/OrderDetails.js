@@ -498,7 +498,6 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
             </div>
           </div>
         </div>
-      </div>
 
       {/* Modals */}
       {showPaymentGateway && (
