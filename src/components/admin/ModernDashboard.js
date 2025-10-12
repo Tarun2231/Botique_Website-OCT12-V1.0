@@ -6,14 +6,30 @@ import PaymentGateways from './PaymentGateways';
 import ClientActivity from './ClientActivity';
 import RevenueChart from './RevenueChart';
 import EnhancedAnalytics from './EnhancedAnalytics';
+import PaymentGateway from './PaymentGateway';
 
-function ModernDashboard({ orders, stats, setActiveView, setSelectedOrder }) {
+function ModernDashboard({ orders, stats, setActiveView, setSelectedOrder, updateOrder }) {
   const [activeTab, setActiveTab] = useState('overview');
+  const [showPaymentGateway, setShowPaymentGateway] = useState(false);
+  const [selectedOrderForPayment, setSelectedOrderForPayment] = useState(null);
   
   const enhancedStats = {
     ...stats,
     activeClients: orders.length,
     avgOrderValue: orders.length > 0 ? Math.round(stats.revenue / orders.length) : 0
+  };
+
+  const handleQuickPay = (order) => {
+    setSelectedOrderForPayment(order);
+    setShowPaymentGateway(true);
+  };
+
+  const handlePaymentSuccess = (updatedOrder) => {
+    if (updateOrder) {
+      updateOrder(updatedOrder);
+    }
+    setShowPaymentGateway(false);
+    setSelectedOrderForPayment(null);
   };
 
   return (
@@ -168,6 +184,7 @@ function ModernDashboard({ orders, stats, setActiveView, setSelectedOrder }) {
           orders={orders.slice(0, 5)} 
           setActiveView={setActiveView}
           setSelectedOrder={setSelectedOrder}
+          onQuickPay={handleQuickPay}
         />
         <PaymentGateways orders={orders} />
       </div>
@@ -216,6 +233,18 @@ function ModernDashboard({ orders, stats, setActiveView, setSelectedOrder }) {
           )}
         </div>
       </div>
+
+      {/* Payment Gateway Modal */}
+      {showPaymentGateway && selectedOrderForPayment && (
+        <PaymentGateway
+          order={selectedOrderForPayment}
+          onPaymentSuccess={handlePaymentSuccess}
+          onClose={() => {
+            setShowPaymentGateway(false);
+            setSelectedOrderForPayment(null);
+          }}
+        />
+      )}
     </div>
   );
 }

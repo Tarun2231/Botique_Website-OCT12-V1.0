@@ -76,6 +76,7 @@ function AdminDashboard({ orders, setOrders }) {
             stats={stats}
             setActiveView={setActiveView}
             setSelectedOrder={setSelectedOrder}
+            updateOrder={updateOrder}
           />
         )}
 

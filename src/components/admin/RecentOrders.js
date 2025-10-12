@@ -1,6 +1,6 @@
 import React from 'react';
 
-function RecentOrders({ orders, setActiveView, setSelectedOrder }) {
+function RecentOrders({ orders, setActiveView, setSelectedOrder, onQuickPay }) {
   const getStatusBadge = (status) => {
     const styles = {
       'Pending': 'bg-yellow-100 text-yellow-800',
@@ -55,6 +55,19 @@ function RecentOrders({ orders, setActiveView, setSelectedOrder }) {
                 {order.paymentStatus}
               </span>
               <span className="font-semibold text-gray-800">₹{order.amount}</span>
+              {order.paymentStatus === 'Unpaid' && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (onQuickPay) {
+                      onQuickPay(order);
+                    }
+                  }}
+                  className="px-3 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition text-xs font-semibold"
+                >
+                  💳 Pay
+                </button>
+              )}
             </div>
           </div>
         ))}

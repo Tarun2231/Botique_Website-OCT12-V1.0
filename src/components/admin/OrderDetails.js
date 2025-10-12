@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PaymentCheckout from './PaymentCheckout';
+import PaymentGateway from './PaymentGateway';
 import InvoiceGenerator from './InvoiceGenerator';
 import MeasurementDetails from './MeasurementDetails';
 
@@ -7,6 +8,7 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedOrder, setEditedOrder] = useState({ ...order });
   const [showPaymentCheckout, setShowPaymentCheckout] = useState(false);
+  const [showPaymentGateway, setShowPaymentGateway] = useState(false);
   const [showInvoice, setShowInvoice] = useState(false);
   const [showMeasurements, setShowMeasurements] = useState(false);
 
@@ -58,6 +60,11 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
   const handlePaymentComplete = (updatedOrder) => {
     updateOrder(updatedOrder);
     setShowPaymentCheckout(false);
+  };
+
+  const handleGatewayPaymentSuccess = (updatedOrder) => {
+    updateOrder(updatedOrder);
+    setShowPaymentGateway(false);
   };
 
   return (
@@ -358,12 +365,20 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
               </button>
               
               {editedOrder.paymentStatus === 'Unpaid' && (
-                <button
-                  onClick={() => setShowPaymentCheckout(true)}
-                  className="w-full mt-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:shadow-lg transition"
-                >
-                  💳 Process Payment
-                </button>
+                <div className="mt-2 space-y-2">
+                  <button
+                    onClick={() => setShowPaymentGateway(true)}
+                    className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:shadow-lg transition"
+                  >
+                    💳 Pay Now
+                  </button>
+                  <button
+                    onClick={() => setShowPaymentCheckout(true)}
+                    className="w-full px-6 py-3 bg-gray-600 text-white rounded-lg font-semibold hover:bg-gray-700 transition"
+                  >
+                    ⚙️ Manual Payment
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -402,6 +417,14 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
       </div>
 
       {/* Modals */}
+      {showPaymentGateway && (
+        <PaymentGateway
+          order={editedOrder}
+          onPaymentSuccess={handleGatewayPaymentSuccess}
+          onClose={() => setShowPaymentGateway(false)}
+        />
+      )}
+
       {showPaymentCheckout && (
         <PaymentCheckout
           order={editedOrder}
