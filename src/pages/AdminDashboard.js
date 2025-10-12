@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import AdminNavbar from '../components/admin/AdminNavbar';
+import ModernSidebar from '../components/admin/ModernSidebar';
+import TopHeader from '../components/admin/TopHeader';
+import ModernDashboard from '../components/admin/ModernDashboard';
 import DashboardOverview from '../components/admin/DashboardOverview';
 import AddClientForm from '../components/admin/AddClientForm';
 import OrdersTable from '../components/admin/OrdersTable';
@@ -58,12 +60,18 @@ function AdminDashboard({ orders, setOrders }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <AdminNavbar activeView={activeView} setActiveView={setActiveView} setSelectedOrder={setSelectedOrder} />
+    <div className="min-h-screen bg-gray-50 flex">
+      <ModernSidebar 
+        activeView={activeView} 
+        setActiveView={setActiveView} 
+        setSelectedOrder={setSelectedOrder} 
+      />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex-1 ml-64">
+        <TopHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <div className="p-8">
         {activeView === 'overview' && (
-          <DashboardOverview stats={stats} setActiveView={setActiveView} />
+          <ModernDashboard orders={filteredOrders} stats={stats} />
         )}
 
         {activeView === 'add-client' && (
@@ -91,6 +99,7 @@ function AdminDashboard({ orders, setOrders }) {
             setActiveView={setActiveView}
           />
         )}
+        </div>
       </div>
     </div>
   );
