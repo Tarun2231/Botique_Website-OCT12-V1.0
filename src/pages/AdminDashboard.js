@@ -6,6 +6,7 @@ import DashboardOverview from '../components/admin/DashboardOverview';
 import AddClientForm from '../components/admin/AddClientForm';
 import OrdersTable from '../components/admin/OrdersTable';
 import OrderDetails from '../components/admin/OrderDetails';
+import StatusManager from '../components/admin/StatusManager';
 
 function AdminDashboard({ orders, setOrders }) {
   const [activeView, setActiveView] = useState('overview');
@@ -101,6 +102,15 @@ function AdminDashboard({ orders, setOrders }) {
             setSearchTerm={setSearchTerm}
             filterStatus={filterStatus}
             setFilterStatus={setFilterStatus}
+          />
+        )}
+
+        {activeView === 'status' && (
+          <StatusManager 
+            orders={orders} 
+            updateOrder={updateOrder}
+            setActiveView={setActiveView}
+            setSelectedOrder={setSelectedOrder}
           />
         )}
 

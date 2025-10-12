@@ -47,6 +47,7 @@ function ModernSidebar({ activeView, setActiveView, setSelectedOrder, orders, up
     { id: 'overview', label: 'Dashboard', icon: '📊' },
     { id: 'add-client', label: 'Add Client', icon: '➕' },
     { id: 'orders', label: 'All Orders', icon: '📦' },
+    { id: 'status', label: 'Status Manager', icon: '⚡' },
   ];
 
   return (
