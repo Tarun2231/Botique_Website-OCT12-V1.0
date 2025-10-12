@@ -18,30 +18,6 @@ function ModernSidebar({ activeView, setActiveView, setSelectedOrder, orders, up
     }
   };
 
-  const handleStatusChange = (order, newStatus) => {
-    const updatedOrder = { ...order, status: newStatus };
-    if (updateOrder) {
-      updateOrder(updatedOrder);
-    }
-  };
-
-  const getStatusBadge = (status) => {
-    const styles = {
-      'Pending': 'bg-yellow-100 text-yellow-800',
-      'In Progress': 'bg-blue-100 text-blue-800',
-      'Delivered': 'bg-green-100 text-green-800'
-    };
-    return styles[status] || 'bg-gray-100 text-gray-800';
-  };
-
-  const getStatusIcon = (status) => {
-    switch(status) {
-      case 'Pending': return '⏳';
-      case 'In Progress': return '⚙️';
-      case 'Delivered': return '✅';
-      default: return '📋';
-    }
-  };
 
   const menuItems = [
     { id: 'overview', label: 'Dashboard', icon: '📊' },
@@ -108,53 +84,6 @@ function ModernSidebar({ activeView, setActiveView, setSelectedOrder, orders, up
           </div>
         </div>
 
-        {/* Quick Status Management */}
-        <div className="mt-2 border-t border-gray-200 pt-2">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 flex items-center">
-            <span className="mr-1">⚡</span> Quick Status
-          </h3>
-          <div className="space-y-1 max-h-32 overflow-y-auto">
-            {orders.length > 0 ? (
-              orders.slice(0, 2).map((order) => (
-                <div key={order.id} className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-2 border border-purple-100">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center space-x-1">
-                      <span className="text-xs">{getStatusIcon(order.status)}</span>
-                      <div>
-                        <p className="text-xs font-bold text-gray-800">#{order.id}</p>
-                        <p className="text-xs text-gray-600 truncate">{order.clientName}</p>
-                      </div>
-                    </div>
-                    <span className={`px-1 py-1 rounded-full text-xs font-bold ${getStatusBadge(order.status)}`}>
-                      {order.status}
-                    </span>
-                  </div>
-                  
-                  <div className="flex space-x-1">
-                    {['Pending', 'In Progress', 'Delivered'].map((status) => (
-                      <button
-                        key={status}
-                        onClick={() => handleStatusChange(order, status)}
-                        disabled={order.status === status}
-                        className={`flex-1 flex items-center justify-center px-1 py-1 rounded text-xs font-semibold transition ${
-                          order.status === status
-                            ? 'bg-purple-200 text-purple-800 cursor-not-allowed'
-                            : 'bg-white text-gray-700 hover:bg-purple-100 hover:text-purple-800 border border-gray-200'
-                        }`}
-                      >
-                        <span className="text-xs">{getStatusIcon(status)}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="bg-gray-50 rounded-lg p-2 text-center">
-                <p className="text-xs text-gray-600">No orders</p>
-              </div>
-            )}
-          </div>
-        </div>
       </div>
 
 
