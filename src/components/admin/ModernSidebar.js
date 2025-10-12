@@ -111,6 +111,46 @@ function ModernSidebar({ activeView, setActiveView, setSelectedOrder, orders, up
             </span>
           </div>
         </div>
+
+        {/* Quick Status Management */}
+        <div className="mt-4">
+          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Quick Status</h3>
+          <div className="space-y-2">
+            {orders.slice(0, 3).map((order) => (
+              <div key={order.id} className="bg-gray-50 rounded-lg p-2">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-lg">{getStatusIcon(order.status)}</span>
+                    <div>
+                      <p className="text-xs font-semibold text-gray-800">#{order.id}</p>
+                      <p className="text-xs text-gray-600">{order.clientName}</p>
+                    </div>
+                  </div>
+                  <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusBadge(order.status)}`}>
+                    {order.status}
+                  </span>
+                </div>
+                
+                <div className="flex space-x-1">
+                  {['Pending', 'In Progress', 'Delivered'].map((status) => (
+                    <button
+                      key={status}
+                      onClick={() => handleStatusChange(order, status)}
+                      disabled={order.status === status}
+                      className={`flex-1 px-2 py-1 rounded text-xs font-medium transition ${
+                        order.status === status
+                          ? 'bg-purple-100 text-purple-700 cursor-not-allowed'
+                          : 'bg-white text-gray-700 hover:bg-purple-50 hover:text-purple-700'
+                      }`}
+                    >
+                      {getStatusIcon(status)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Order Status Manager */}
