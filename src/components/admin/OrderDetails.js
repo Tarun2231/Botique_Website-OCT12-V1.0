@@ -531,7 +531,7 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
           onClose={() => setShowMeasurements(false)}
         />
       )}
-    </div>
+      </div>
     </>
   );
 }
