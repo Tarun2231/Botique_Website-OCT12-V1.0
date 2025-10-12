@@ -314,44 +314,54 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
 
             {/* Current Status Display */}
             <div className="mb-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-3">
-                  <span className="text-2xl">{getStatusIcon(editedOrder.status)}</span>
-                  <div>
-                    <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${getStatusBadge(editedOrder.status)}`}>
-                      {editedOrder.status}
-                    </span>
+              <div className="bg-gradient-to-r from-gray-50 to-purple-50 rounded-xl p-4 border border-gray-200">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-sm border-2 border-gray-200">
+                      <span className="text-2xl">{getStatusIcon(editedOrder.status)}</span>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600 font-medium">Current Status</p>
+                      <span className={`inline-block px-4 py-2 rounded-full text-sm font-bold ${getStatusBadge(editedOrder.status)} shadow-sm`}>
+                        {editedOrder.status}
+                      </span>
+                    </div>
                   </div>
+                  {!isEditing && (
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center space-x-2 hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+                    >
+                      <span>✏️</span>
+                      <span>Edit Status</span>
+                    </button>
+                  )}
                 </div>
-                {!isEditing && (
-                  <button
-                    onClick={() => setIsEditing(true)}
-                    className="text-purple-600 hover:text-purple-800 text-sm font-medium flex items-center space-x-1"
-                  >
-                    <span>✏️</span>
-                    <span>Edit</span>
-                  </button>
-                )}
               </div>
+            </div>
 
               {/* Quick Status Change Buttons */}
               {!isEditing && (
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-3">Quick Status Update</h3>
-                  <div className="flex space-x-2">
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-5 border border-purple-200 shadow-sm">
+                  <h3 className="text-base font-bold text-gray-800 mb-4 flex items-center">
+                    <span className="mr-2">⚡</span> Quick Status Update
+                  </h3>
+                  <div className="grid grid-cols-3 gap-3">
                     {['Pending', 'In Progress', 'Delivered'].map((status) => (
                       <button
                         key={status}
                         onClick={() => handleQuickStatusChange(status)}
                         disabled={editedOrder.status === status}
-                        className={`flex-1 flex items-center justify-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition ${
+                        className={`group flex flex-col items-center justify-center space-y-2 px-4 py-4 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
                           editedOrder.status === status
-                            ? 'bg-purple-100 text-purple-700 cursor-not-allowed'
-                            : 'bg-white text-gray-700 hover:bg-purple-50 hover:text-purple-700 border border-gray-200 hover:border-purple-300'
+                            ? 'bg-gradient-to-br from-purple-200 to-purple-300 text-purple-900 cursor-not-allowed border-2 border-purple-400 shadow-lg'
+                            : 'bg-white text-gray-700 hover:bg-gradient-to-br hover:from-purple-100 hover:to-pink-100 hover:text-purple-800 border border-gray-200 hover:border-purple-300 shadow-md hover:shadow-lg'
                         }`}
                       >
-                        <span className="text-lg">{getStatusIcon(status)}</span>
-                        <span>{status}</span>
+                        <span className="text-2xl group-hover:scale-110 transition-transform duration-200">
+                          {getStatusIcon(status)}
+                        </span>
+                        <span className="text-xs font-bold">{status}</span>
                       </button>
                     ))}
                   </div>
@@ -377,22 +387,27 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
             </div>
 
             {/* Order Information */}
-            <div className="space-y-3 text-sm border-t border-gray-200 pt-4">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Order Date</span>
-                <span className="text-gray-800 font-semibold">{order.date}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Order ID</span>
-                <span className="text-gray-800 font-semibold">#{order.id}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Client Name</span>
-                <span className="text-gray-800 font-semibold">{order.clientName}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Garment Type</span>
-                <span className="text-gray-800 font-semibold">{order.garmentType}</span>
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200">
+              <h4 className="text-sm font-bold text-gray-700 mb-3 flex items-center">
+                <span className="mr-2">📄</span> Order Information
+              </h4>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="bg-white rounded-lg p-3 shadow-sm">
+                  <span className="text-gray-600 text-xs font-medium">Order Date</span>
+                  <p className="text-gray-800 font-bold">{order.date}</p>
+                </div>
+                <div className="bg-white rounded-lg p-3 shadow-sm">
+                  <span className="text-gray-600 text-xs font-medium">Order ID</span>
+                  <p className="text-gray-800 font-bold">#{order.id}</p>
+                </div>
+                <div className="bg-white rounded-lg p-3 shadow-sm">
+                  <span className="text-gray-600 text-xs font-medium">Client Name</span>
+                  <p className="text-gray-800 font-bold">{order.clientName}</p>
+                </div>
+                <div className="bg-white rounded-lg p-3 shadow-sm">
+                  <span className="text-gray-600 text-xs font-medium">Garment Type</span>
+                  <p className="text-gray-800 font-bold">{order.garmentType}</p>
+                </div>
               </div>
             </div>
           </div>
