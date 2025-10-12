@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 
-function TopHeader({ searchTerm, setSearchTerm }) {
+function TopHeader({ searchTerm, setSearchTerm, orders, updateOrder }) {
   const { user } = useAuth();
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showQuickStatus, setShowQuickStatus] = useState(false);
 
   const notifications = [
     {
@@ -38,6 +39,32 @@ function TopHeader({ searchTerm, setSearchTerm }) {
     }
   };
 
+  const handleQuickStatusChange = (order, newStatus) => {
+    const updatedOrder = { ...order, status: newStatus };
+    if (updateOrder) {
+      updateOrder(updatedOrder);
+    }
+    setShowQuickStatus(false);
+  };
+
+  const getStatusIcon = (status) => {
+    switch(status) {
+      case 'Pending': return '⏳';
+      case 'In Progress': return '⚙️';
+      case 'Delivered': return '✅';
+      default: return '📋';
+    }
+  };
+
+  const getStatusBadge = (status) => {
+    const styles = {
+      'Pending': 'bg-yellow-100 text-yellow-800',
+      'In Progress': 'bg-blue-100 text-blue-800',
+      'Delivered': 'bg-green-100 text-green-800'
+    };
+    return styles[status] || 'bg-gray-100 text-gray-800';
+  };
+
   return (
     <div className="bg-white shadow-sm border-b border-gray-200 px-8 py-4">
       <div className="flex items-center justify-between">
@@ -67,6 +94,63 @@ function TopHeader({ searchTerm, setSearchTerm }) {
 
         {/* Right side - Actions */}
         <div className="flex items-center space-x-4">
+          {/* Quick Status Update */}
+          <div className="relative">
+            <button
+              onClick={() => setShowQuickStatus(!showQuickStatus)}
+              className="relative p-2 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition"
+              title="Quick Status Update"
+            >
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
+              </svg>
+            </button>
+
+            {/* Quick Status Dropdown */}
+            {showQuickStatus && (
+              <div className="absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                <div className="p-4 border-b border-gray-200">
+                  <h3 className="text-lg font-semibold text-gray-800">Quick Status Update</h3>
+                </div>
+                <div className="max-h-64 overflow-y-auto">
+                  {orders.slice(0, 3).map((order) => (
+                    <div key={order.id} className="p-3 hover:bg-gray-50 border-b border-gray-100">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-lg">{getStatusIcon(order.status)}</span>
+                          <div>
+                            <p className="text-sm font-semibold text-gray-800">#{order.id}</p>
+                            <p className="text-xs text-gray-600">{order.clientName}</p>
+                          </div>
+                        </div>
+                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusBadge(order.status)}`}>
+                          {order.status}
+                        </span>
+                      </div>
+                      
+                      <div className="flex space-x-1">
+                        {['Pending', 'In Progress', 'Delivered'].map((status) => (
+                          <button
+                            key={status}
+                            onClick={() => handleQuickStatusChange(order, status)}
+                            disabled={order.status === status}
+                            className={`flex-1 px-2 py-1 rounded text-xs font-medium transition ${
+                              order.status === status
+                                ? 'bg-purple-100 text-purple-700 cursor-not-allowed'
+                                : 'bg-gray-100 text-gray-700 hover:bg-purple-50 hover:text-purple-700'
+                            }`}
+                          >
+                            {getStatusIcon(status)}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Date */}
           <div className="text-right">
             <p className="text-sm text-gray-600">Today</p>

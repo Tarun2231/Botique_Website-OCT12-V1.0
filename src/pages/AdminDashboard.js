@@ -61,14 +61,21 @@ function AdminDashboard({ orders, setOrders }) {
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      <ModernSidebar 
-        activeView={activeView} 
-        setActiveView={setActiveView} 
-        setSelectedOrder={setSelectedOrder} 
-      />
+          <ModernSidebar 
+            activeView={activeView} 
+            setActiveView={setActiveView} 
+            setSelectedOrder={setSelectedOrder}
+            orders={orders}
+            updateOrder={updateOrder}
+          />
       
       <div className="flex-1 ml-64">
-        <TopHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <TopHeader 
+          searchTerm={searchTerm} 
+          setSearchTerm={setSearchTerm}
+          orders={orders}
+          updateOrder={updateOrder}
+        />
         <div className="p-8">
         {activeView === 'overview' && (
           <ModernDashboard 
