@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
+import PaymentCheckout from './PaymentCheckout';
+import InvoiceGenerator from './InvoiceGenerator';
+import MeasurementDetails from './MeasurementDetails';
 
 function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedOrder, setEditedOrder] = useState({ ...order });
+  const [showPaymentCheckout, setShowPaymentCheckout] = useState(false);
+  const [showInvoice, setShowInvoice] = useState(false);
+  const [showMeasurements, setShowMeasurements] = useState(false);
 
   const getStatusBadge = (status) => {
     const styles = {
@@ -47,6 +53,11 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
     const updated = { ...editedOrder, paymentStatus: newStatus };
     setEditedOrder(updated);
     updateOrder(updated);
+  };
+
+  const handlePaymentComplete = (updatedOrder) => {
+    updateOrder(updatedOrder);
+    setShowPaymentCheckout(false);
   };
 
   return (
@@ -345,6 +356,15 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
               >
                 Mark as {editedOrder.paymentStatus === 'Paid' ? 'Unpaid' : 'Paid'}
               </button>
+              
+              {editedOrder.paymentStatus === 'Unpaid' && (
+                <button
+                  onClick={() => setShowPaymentCheckout(true)}
+                  className="w-full mt-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:shadow-lg transition"
+                >
+                  💳 Process Payment
+                </button>
+              )}
             </div>
           </div>
 
@@ -352,6 +372,18 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <h2 className="text-xl font-bold text-gray-800 mb-6">Actions</h2>
             <div className="space-y-3">
+              <button
+                onClick={() => setShowInvoice(true)}
+                className="w-full px-6 py-3 bg-green-100 text-green-700 rounded-lg font-semibold hover:bg-green-200 transition"
+              >
+                📋 Generate Invoice
+              </button>
+              <button
+                onClick={() => setShowMeasurements(true)}
+                className="w-full px-6 py-3 bg-purple-100 text-purple-700 rounded-lg font-semibold hover:bg-purple-200 transition"
+              >
+                📏 View Measurements
+              </button>
               <button
                 onClick={() => window.print()}
                 className="w-full px-6 py-3 bg-blue-100 text-blue-700 rounded-lg font-semibold hover:bg-blue-200 transition"
@@ -368,6 +400,29 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      {showPaymentCheckout && (
+        <PaymentCheckout
+          order={editedOrder}
+          onPaymentComplete={handlePaymentComplete}
+          onClose={() => setShowPaymentCheckout(false)}
+        />
+      )}
+
+      {showInvoice && (
+        <InvoiceGenerator
+          order={editedOrder}
+          onClose={() => setShowInvoice(false)}
+        />
+      )}
+
+      {showMeasurements && (
+        <MeasurementDetails
+          order={editedOrder}
+          onClose={() => setShowMeasurements(false)}
+        />
+      )}
     </div>
   );
 }

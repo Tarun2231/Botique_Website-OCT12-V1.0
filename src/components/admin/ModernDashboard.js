@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AnalyticsCards from './AnalyticsCards';
 import OrderAnalytics from './OrderAnalytics';
 import RecentOrders from './RecentOrders';
 import PaymentGateways from './PaymentGateways';
 import ClientActivity from './ClientActivity';
 import RevenueChart from './RevenueChart';
+import EnhancedAnalytics from './EnhancedAnalytics';
 
 function ModernDashboard({ orders, stats, setActiveView, setSelectedOrder }) {
+  const [activeTab, setActiveTab] = useState('overview');
+  
   const enhancedStats = {
     ...stats,
     activeClients: orders.length,
@@ -171,6 +174,48 @@ function ModernDashboard({ orders, stats, setActiveView, setSelectedOrder }) {
 
       {/* Client Activity */}
       <ClientActivity orders={orders} />
+      
+      {/* Enhanced Analytics Tab */}
+      <div className="bg-white rounded-2xl shadow-lg">
+        <div className="border-b border-gray-200">
+          <nav className="flex space-x-8 px-6">
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'overview'
+                  ? 'border-purple-500 text-purple-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Overview
+            </button>
+            <button
+              onClick={() => setActiveTab('analytics')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'analytics'
+                  ? 'border-purple-500 text-purple-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Detailed Analytics
+            </button>
+          </nav>
+        </div>
+        
+        <div className="p-6">
+          {activeTab === 'overview' && (
+            <div className="text-center py-12">
+              <div className="text-4xl mb-4">📊</div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Dashboard Overview</h3>
+              <p className="text-gray-600">This is the overview tab. Switch to "Detailed Analytics" for more insights.</p>
+            </div>
+          )}
+          
+          {activeTab === 'analytics' && (
+            <EnhancedAnalytics orders={orders} stats={stats} />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
