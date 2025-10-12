@@ -5,6 +5,7 @@ function OrdersTable({
   setSelectedOrder, 
   setActiveView, 
   deleteOrder,
+  updateOrder,
   searchTerm,
   setSearchTerm,
   filterStatus,
@@ -23,6 +24,22 @@ function OrdersTable({
     return paymentStatus === 'Paid' 
       ? 'bg-green-100 text-green-800' 
       : 'bg-red-100 text-red-800';
+  };
+
+  const getStatusIcon = (status) => {
+    switch(status) {
+      case 'Pending': return '⏳';
+      case 'In Progress': return '⚙️';
+      case 'Delivered': return '✅';
+      default: return '📋';
+    }
+  };
+
+  const handleQuickStatusChange = (order, newStatus) => {
+    const updatedOrder = { ...order, status: newStatus };
+    if (updateOrder) {
+      updateOrder(updatedOrder);
+    }
   };
 
   const handleViewDetails = (order) => {
@@ -108,10 +125,29 @@ function OrdersTable({
                     <td className="px-6 py-4 text-sm font-semibold text-gray-800">#{order.id}</td>
                     <td className="px-6 py-4 text-sm text-gray-800">{order.clientName}</td>
                     <td className="px-6 py-4 text-sm text-gray-600">{order.garmentType}</td>
-                    <td className="px-6 py-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusBadge(order.status)}`}>
-                        {order.status}
-                      </span>
+                    <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
+                      <div className="flex flex-col space-y-2">
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusBadge(order.status)} inline-block w-fit`}>
+                          {order.status}
+                        </span>
+                        <div className="flex space-x-1">
+                          {['Pending', 'In Progress', 'Delivered'].map((status) => (
+                            <button
+                              key={status}
+                              onClick={() => handleQuickStatusChange(order, status)}
+                              disabled={order.status === status}
+                              className={`p-1 rounded text-xs transition ${
+                                order.status === status
+                                  ? 'bg-purple-100 text-purple-700 cursor-not-allowed'
+                                  : 'bg-gray-100 text-gray-600 hover:bg-purple-50 hover:text-purple-700'
+                              }`}
+                              title={`Change to ${status}`}
+                            >
+                              {getStatusIcon(status)}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getPaymentBadge(order.paymentStatus)}`}>

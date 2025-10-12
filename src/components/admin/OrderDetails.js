@@ -21,6 +21,21 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
     return styles[status] || 'bg-gray-100 text-gray-800';
   };
 
+  const getStatusIcon = (status) => {
+    switch(status) {
+      case 'Pending': return '⏳';
+      case 'In Progress': return '⚙️';
+      case 'Delivered': return '✅';
+      default: return '📋';
+    }
+  };
+
+  const handleQuickStatusChange = (newStatus) => {
+    const updatedOrder = { ...editedOrder, status: newStatus };
+    setEditedOrder(updatedOrder);
+    updateOrder(updatedOrder);
+  };
+
   const getPaymentBadge = (paymentStatus) => {
     return paymentStatus === 'Paid' 
       ? 'bg-green-100 text-green-800' 
@@ -297,26 +312,72 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
               <span className="mr-2">📋</span> Order Status
             </h2>
 
-            {isEditing ? (
-              <select
-                name="status"
-                value={editedOrder.status}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4"
-              >
-                <option value="Pending">Pending</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Delivered">Delivered</option>
-              </select>
-            ) : (
-              <div className="mb-6">
-                <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${getStatusBadge(order.status)}`}>
-                  {order.status}
-                </span>
+            {/* Current Status Display */}
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-3">
+                  <span className="text-2xl">{getStatusIcon(editedOrder.status)}</span>
+                  <div>
+                    <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${getStatusBadge(editedOrder.status)}`}>
+                      {editedOrder.status}
+                    </span>
+                  </div>
+                </div>
+                {!isEditing && (
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="text-purple-600 hover:text-purple-800 text-sm font-medium flex items-center space-x-1"
+                  >
+                    <span>✏️</span>
+                    <span>Edit</span>
+                  </button>
+                )}
               </div>
-            )}
 
-            <div className="space-y-3 text-sm">
+              {/* Quick Status Change Buttons */}
+              {!isEditing && (
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h3 className="text-sm font-semibold text-gray-700 mb-3">Quick Status Update</h3>
+                  <div className="flex space-x-2">
+                    {['Pending', 'In Progress', 'Delivered'].map((status) => (
+                      <button
+                        key={status}
+                        onClick={() => handleQuickStatusChange(status)}
+                        disabled={editedOrder.status === status}
+                        className={`flex-1 flex items-center justify-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition ${
+                          editedOrder.status === status
+                            ? 'bg-purple-100 text-purple-700 cursor-not-allowed'
+                            : 'bg-white text-gray-700 hover:bg-purple-50 hover:text-purple-700 border border-gray-200 hover:border-purple-300'
+                        }`}
+                      >
+                        <span className="text-lg">{getStatusIcon(status)}</span>
+                        <span>{status}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Edit Mode Status Dropdown */}
+              {isEditing && (
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Order Status</label>
+                  <select
+                    name="status"
+                    value={editedOrder.status}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  >
+                    <option value="Pending">⏳ Pending</option>
+                    <option value="In Progress">⚙️ In Progress</option>
+                    <option value="Delivered">✅ Delivered</option>
+                  </select>
+                </div>
+              )}
+            </div>
+
+            {/* Order Information */}
+            <div className="space-y-3 text-sm border-t border-gray-200 pt-4">
               <div className="flex justify-between">
                 <span className="text-gray-600">Order Date</span>
                 <span className="text-gray-800 font-semibold">{order.date}</span>
@@ -324,6 +385,14 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
               <div className="flex justify-between">
                 <span className="text-gray-600">Order ID</span>
                 <span className="text-gray-800 font-semibold">#{order.id}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Client Name</span>
+                <span className="text-gray-800 font-semibold">{order.clientName}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Garment Type</span>
+                <span className="text-gray-800 font-semibold">{order.garmentType}</span>
               </div>
             </div>
           </div>
