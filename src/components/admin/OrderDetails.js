@@ -500,9 +500,8 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
           </div>
         </div>
       </div>
-    </div>
 
-    {/* Modals */}
+      {/* Modals */}
       {showPaymentGateway && (
         <PaymentGateway
           order={editedOrder}
@@ -532,6 +531,7 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
           onClose={() => setShowMeasurements(false)}
         />
       )}
+    </div>
     </>
   );
 }
