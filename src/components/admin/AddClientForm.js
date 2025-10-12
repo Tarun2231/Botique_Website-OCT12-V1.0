@@ -240,27 +240,213 @@ function AddClientForm({ addOrder, setActiveView }) {
                   onChange={handleChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
-                  <option value="Shirt">Shirt</option>
-                  <option value="Pant">Pant</option>
-                  <option value="Kurta">Kurta</option>
-                  <option value="Blazer">Blazer</option>
-                  <option value="Others">Others</option>
+                  {/* Men's Clothing */}
+                  <optgroup label="👔 Men's Clothing">
+                    <option value="Shirt">Shirt</option>
+                    <option value="T-Shirt">T-Shirt</option>
+                    <option value="Polo Shirt">Polo Shirt</option>
+                    <option value="Formal Shirt">Formal Shirt</option>
+                    <option value="Casual Shirt">Casual Shirt</option>
+                    <option value="Pant">Pant</option>
+                    <option value="Formal Pant">Formal Pant</option>
+                    <option value="Casual Pant">Casual Pant</option>
+                    <option value="Jeans">Jeans</option>
+                    <option value="Trouser">Trouser</option>
+                    <option value="Blazer">Blazer</option>
+                    <option value="Suit">Suit (2-piece)</option>
+                    <option value="Suit 3-piece">Suit (3-piece)</option>
+                    <option value="Coat">Coat</option>
+                    <option value="Jacket">Jacket</option>
+                    <option value="Kurta">Kurta</option>
+                    <option value="Sherwani">Sherwani</option>
+                    <option value="Nehru Jacket">Nehru Jacket</option>
+                    <option value="Waistcoat">Waistcoat</option>
+                    <option value="Shorts">Shorts</option>
+                    <option value="Pyjama">Pyjama</option>
+                    <option value="Lungi">Lungi</option>
+                    <option value="Dhoti">Dhoti</option>
+                  </optgroup>
+                  
+                  {/* Women's Clothing */}
+                  <optgroup label="👗 Women's Clothing">
+                    <option value="Saree">Saree</option>
+                    <option value="Blouse">Blouse</option>
+                    <option value="Lehenga">Lehenga</option>
+                    <option value="Choli">Choli</option>
+                    <option value="Anarkali">Anarkali</option>
+                    <option value="Kurta">Kurta (Women)</option>
+                    <option value="Kurti">Kurti</option>
+                    <option value="Salwar Kameez">Salwar Kameez</option>
+                    <option value="Churidar">Churidar</option>
+                    <option value="Palazzo">Palazzo</option>
+                    <option value="Dress">Dress</option>
+                    <option value="Maxi Dress">Maxi Dress</option>
+                    <option value="A-Line Dress">A-Line Dress</option>
+                    <option value="Bodycon Dress">Bodycon Dress</option>
+                    <option value="Blazer (Women)">Blazer (Women)</option>
+                    <option value="Coat (Women)">Coat (Women)</option>
+                    <option value="Jacket (Women)">Jacket (Women)</option>
+                    <option value="Top">Top</option>
+                    <option value="Tunic">Tunic</option>
+                    <option value="Skirt">Skirt</option>
+                    <option value="Pants (Women)">Pants (Women)</option>
+                    <option value="Jeans (Women)">Jeans (Women)</option>
+                    <option value="Shorts (Women)">Shorts (Women)</option>
+                    <option value="Leggings">Leggings</option>
+                    <option value="Trousers (Women)">Trousers (Women)</option>
+                    <option value="Pajama (Women)">Pajama (Women)</option>
+                  </optgroup>
+                  
+                  {/* Kids Clothing */}
+                  <optgroup label="👶 Kids Clothing">
+                    <option value="Kids Shirt">Kids Shirt</option>
+                    <option value="Kids Pant">Kids Pant</option>
+                    <option value="Kids Dress">Kids Dress</option>
+                    <option value="Kids Kurta">Kids Kurta</option>
+                    <option value="Kids Suit">Kids Suit</option>
+                    <option value="Kids Frock">Kids Frock</option>
+                  </optgroup>
+                  
+                  {/* Traditional & Ethnic */}
+                  <optgroup label="🎭 Traditional & Ethnic">
+                    <option value="Mundu">Mundu</option>
+                    <option value="Dhoti Kurta">Dhoti Kurta</option>
+                    <option value="Lungi Kurta">Lungi Kurta</option>
+                    <option value="Pathani Suit">Pathani Suit</option>
+                    <option value="Achkan">Achkan</option>
+                    <option value="Bandhgala">Bandhgala</option>
+                    <option value="Jodhpuri Suit">Jodhpuri Suit</option>
+                  </optgroup>
+                  
+                  {/* Alterations & Others */}
+                  <optgroup label="✂️ Alterations & Others">
+                    <option value="Alteration">Alteration</option>
+                    <option value="Hemming">Hemming</option>
+                    <option value="Resizing">Resizing</option>
+                    <option value="Repair">Repair</option>
+                    <option value="Custom Design">Custom Design</option>
+                    <option value="Others">Others</option>
+                  </optgroup>
                 </select>
               </div>
 
               <div>
                 <label className="block text-gray-700 font-semibold mb-2">Fabric Type *</label>
-                <input
-                  type="text"
+                <select
                   name="fabricType"
                   value={formData.fabricType}
                   onChange={handleChange}
                   className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
                     errors.fabricType ? 'border-red-500' : 'border-gray-300'
                   }`}
-                  placeholder="Cotton, Silk, Linen..."
-                />
+                >
+                  <option value="">Select Fabric Type</option>
+                  
+                  {/* Natural Fabrics */}
+                  <optgroup label="🌿 Natural Fabrics">
+                    <option value="Cotton">Cotton</option>
+                    <option value="Linen">Linen</option>
+                    <option value="Silk">Silk</option>
+                    <option value="Wool">Wool</option>
+                    <option value="Cashmere">Cashmere</option>
+                    <option value="Khadi">Khadi</option>
+                    <option value="Jute">Jute</option>
+                    <option value="Hemp">Hemp</option>
+                    <option value="Bamboo">Bamboo</option>
+                  </optgroup>
+                  
+                  {/* Synthetic Fabrics */}
+                  <optgroup label="🧵 Synthetic Fabrics">
+                    <option value="Polyester">Polyester</option>
+                    <option value="Nylon">Nylon</option>
+                    <option value="Rayon">Rayon</option>
+                    <option value="Viscose">Viscose</option>
+                    <option value="Acrylic">Acrylic</option>
+                    <option value="Spandex">Spandex</option>
+                    <option value="Elastane">Elastane</option>
+                  </optgroup>
+                  
+                  {/* Blended Fabrics */}
+                  <optgroup label="🔀 Blended Fabrics">
+                    <option value="Cotton Polyester">Cotton Polyester</option>
+                    <option value="Cotton Linen">Cotton Linen</option>
+                    <option value="Cotton Silk">Cotton Silk</option>
+                    <option value="Cotton Spandex">Cotton Spandex</option>
+                    <option value="Wool Silk">Wool Silk</option>
+                    <option value="Silk Polyester">Silk Polyester</option>
+                    <option value="Linen Cotton">Linen Cotton</option>
+                  </optgroup>
+                  
+                  {/* Traditional Indian Fabrics */}
+                  <optgroup label="🇮🇳 Traditional Indian Fabrics">
+                    <option value="Chiffon">Chiffon</option>
+                    <option value="Georgette">Georgette</option>
+                    <option value="Crepe">Crepe</option>
+                    <option value="Satin">Satin</option>
+                    <option value="Taffeta">Taffeta</option>
+                    <option value="Organza">Organza</option>
+                    <option value="Net">Net</option>
+                    <option value="Velvet">Velvet</option>
+                    <option value="Brocade">Brocade</option>
+                    <option value="Banarasi">Banarasi</option>
+                    <option value="Kanjeevaram">Kanjeevaram</option>
+                    <option value="Patola">Patola</option>
+                    <option value="Chanderi">Chanderi</option>
+                    <option value="Maheshwari">Maheshwari</option>
+                    <option value="Ikat">Ikat</option>
+                    <option value="Ajrakh">Ajrakh</option>
+                    <option value="Bandhani">Bandhani</option>
+                    <option value="Leheriya">Leheriya</option>
+                  </optgroup>
+                  
+                  {/* Denim & Casual */}
+                  <optgroup label="👖 Denim & Casual">
+                    <option value="Denim">Denim</option>
+                    <option value="Canvas">Canvas</option>
+                    <option value="Corduroy">Corduroy</option>
+                    <option value="Twill">Twill</option>
+                    <option value="Flannel">Flannel</option>
+                    <option value="Fleece">Fleece</option>
+                    <option value="Terry Cloth">Terry Cloth</option>
+                  </optgroup>
+                  
+                  {/* Formal & Business */}
+                  <optgroup label="👔 Formal & Business">
+                    <option value="Gabardine">Gabardine</option>
+                    <option value="Tweed">Tweed</option>
+                    <option value="Herringbone">Herringbone</option>
+                    <option value="Pinstripe">Pinstripe</option>
+                    <option value="Seersucker">Seersucker</option>
+                    <option value="Poplin">Poplin</option>
+                    <option value="Oxford">Oxford</option>
+                  </optgroup>
+                  
+                  {/* Special Fabrics */}
+                  <optgroup label="✨ Special Fabrics">
+                    <option value="Lycra">Lycra</option>
+                    <option value="Mesh">Mesh</option>
+                    <option value="Leather">Leather</option>
+                    <option value="Suede">Suede</option>
+                    <option value="Faux Leather">Faux Leather</option>
+                    <option value="Microfiber">Microfiber</option>
+                    <option value="Waterproof">Waterproof</option>
+                  </optgroup>
+                  
+                  {/* Custom Option */}
+                  <optgroup label="✏️ Custom">
+                    <option value="Custom/Other">Custom/Other</option>
+                  </optgroup>
+                </select>
                 {errors.fabricType && <p className="mt-1 text-sm text-red-600">{errors.fabricType}</p>}
+                {formData.fabricType === 'Custom/Other' && (
+                  <input
+                    type="text"
+                    name="customFabricType"
+                    placeholder="Specify custom fabric type..."
+                    className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    onChange={(e) => setFormData(prev => ({ ...prev, fabricType: e.target.value }))}
+                  />
+                )}
               </div>
 
               <div className="md:col-span-2">
