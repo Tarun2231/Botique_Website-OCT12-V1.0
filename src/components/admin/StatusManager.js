@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 function StatusManager({ orders, updateOrder, setActiveView, setSelectedOrder }) {
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedOrder, setSelectedOrderForDate] = useState(null);
+  const [deliveryDate, setDeliveryDate] = useState('');
 
   const getStatusBadge = (status) => {
     const styles = {
@@ -23,8 +26,35 @@ function StatusManager({ orders, updateOrder, setActiveView, setSelectedOrder })
   };
 
   const handleStatusChange = (order, newStatus) => {
-    const updatedOrder = { ...order, status: newStatus };
-    updateOrder(updatedOrder);
+    if (newStatus === 'Delivered') {
+      // Show date picker for delivered status
+      setSelectedOrderForDate(order);
+      setShowDatePicker(true);
+    } else {
+      // Direct status update for other statuses
+      const updatedOrder = { ...order, status: newStatus };
+      updateOrder(updatedOrder);
+    }
+  };
+
+  const handleDeliveryDateConfirm = () => {
+    if (selectedOrder && deliveryDate) {
+      const updatedOrder = { 
+        ...selectedOrder, 
+        status: 'Delivered',
+        deliveryDate: deliveryDate
+      };
+      updateOrder(updatedOrder);
+      setShowDatePicker(false);
+      setSelectedOrderForDate(null);
+      setDeliveryDate('');
+    }
+  };
+
+  const handleDeliveryDateCancel = () => {
+    setShowDatePicker(false);
+    setSelectedOrderForDate(null);
+    setDeliveryDate('');
   };
 
   const filteredOrders = orders.filter(order => {
@@ -191,6 +221,65 @@ function StatusManager({ orders, updateOrder, setActiveView, setSelectedOrder })
           </div>
         </div>
       </div>
+
+      {/* Delivery Date Picker Modal */}
+      {showDatePicker && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-6 w-96 max-w-md mx-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-gray-800">Set Delivery Date</h3>
+              <button
+                onClick={handleDeliveryDateCancel}
+                className="text-gray-500 hover:text-gray-700 text-xl"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="mb-4">
+              <p className="text-sm text-gray-600 mb-2">
+                Order: <span className="font-semibold">#{selectedOrder?.id} - {selectedOrder?.clientName}</span>
+              </p>
+              <p className="text-sm text-gray-500">
+                Please select the delivery date for this order.
+              </p>
+            </div>
+
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Delivery Date
+              </label>
+              <input
+                type="date"
+                value={deliveryDate}
+                onChange={(e) => setDeliveryDate(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                min={new Date().toISOString().split('T')[0]}
+              />
+            </div>
+
+            <div className="flex space-x-3">
+              <button
+                onClick={handleDeliveryDateCancel}
+                className="flex-1 px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeliveryDateConfirm}
+                disabled={!deliveryDate}
+                className={`flex-1 px-4 py-3 rounded-lg font-semibold transition ${
+                  deliveryDate
+                    ? 'bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 shadow-lg'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                ✅ Mark as Delivered
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
