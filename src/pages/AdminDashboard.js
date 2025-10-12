@@ -71,7 +71,12 @@ function AdminDashboard({ orders, setOrders }) {
         <TopHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         <div className="p-8">
         {activeView === 'overview' && (
-          <ModernDashboard orders={filteredOrders} stats={stats} />
+          <ModernDashboard 
+            orders={filteredOrders} 
+            stats={stats}
+            setActiveView={setActiveView}
+            setSelectedOrder={setSelectedOrder}
+          />
         )}
 
         {activeView === 'add-client' && (

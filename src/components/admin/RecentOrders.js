@@ -1,6 +1,6 @@
 import React from 'react';
 
-function RecentOrders({ orders }) {
+function RecentOrders({ orders, setActiveView, setSelectedOrder }) {
   const getStatusBadge = (status) => {
     const styles = {
       'Pending': 'bg-yellow-100 text-yellow-800',
@@ -20,12 +20,24 @@ function RecentOrders({ orders }) {
     <div className="bg-white rounded-2xl shadow-lg p-6">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-xl font-bold text-gray-800">Recent Orders</h3>
-        <button className="text-purple-600 hover:text-purple-800 font-medium">View All</button>
+        <button 
+          onClick={() => setActiveView('orders')}
+          className="text-purple-600 hover:text-purple-800 font-medium"
+        >
+          View All
+        </button>
       </div>
       
       <div className="space-y-4">
         {orders.map((order, index) => (
-          <div key={order.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+          <div 
+            key={order.id} 
+            className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition cursor-pointer"
+            onClick={() => {
+              setSelectedOrder(order);
+              setActiveView('order-details');
+            }}
+          >
             <div className="flex items-center space-x-4">
               <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
                 {order.id}

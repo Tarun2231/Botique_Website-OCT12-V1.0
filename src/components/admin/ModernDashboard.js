@@ -6,7 +6,7 @@ import PaymentGateways from './PaymentGateways';
 import ClientActivity from './ClientActivity';
 import RevenueChart from './RevenueChart';
 
-function ModernDashboard({ orders, stats }) {
+function ModernDashboard({ orders, stats, setActiveView, setSelectedOrder }) {
   const enhancedStats = {
     ...stats,
     activeClients: orders.length,
@@ -28,6 +28,12 @@ function ModernDashboard({ orders, stats }) {
               <div className="bg-white/20 rounded-lg px-4 py-2">
                 <span className="text-sm">You have {stats.pending} pending orders</span>
               </div>
+              <button
+                onClick={() => setActiveView('orders')}
+                className="bg-white/20 hover:bg-white/30 rounded-lg px-4 py-2 transition"
+              >
+                <span className="text-sm font-medium">View All Orders</span>
+              </button>
             </div>
           </div>
           <div className="text-right">
@@ -43,7 +49,7 @@ function ModernDashboard({ orders, stats }) {
       </div>
 
       {/* Analytics Cards */}
-      <AnalyticsCards stats={enhancedStats} />
+      <AnalyticsCards stats={enhancedStats} setActiveView={setActiveView} />
 
       {/* Sales Distribution Banner */}
       <div className="bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl shadow-xl p-8 text-white relative overflow-hidden">
@@ -155,7 +161,11 @@ function ModernDashboard({ orders, stats }) {
 
       {/* Bottom Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <RecentOrders orders={orders.slice(0, 5)} />
+        <RecentOrders 
+          orders={orders.slice(0, 5)} 
+          setActiveView={setActiveView}
+          setSelectedOrder={setSelectedOrder}
+        />
         <PaymentGateways orders={orders} />
       </div>
 
