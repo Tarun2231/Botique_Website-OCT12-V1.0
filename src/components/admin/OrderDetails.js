@@ -83,7 +83,8 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
   };
 
   return (
-    <div>
+    <>
+      <div>
       <div className="mb-8 flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Order Details</h1>
@@ -531,7 +532,7 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
           onClose={() => setShowMeasurements(false)}
         />
       )}
-    </div>
+    </>
   );
 }
 
