@@ -23,8 +23,6 @@ function ModernSidebar({ activeView, setActiveView, setSelectedOrder, orders, up
     if (updateOrder) {
       updateOrder(updatedOrder);
     }
-    setShowStatusManager(false);
-    setSelectedOrderForStatus(null);
   };
 
   const getStatusBadge = (status) => {
