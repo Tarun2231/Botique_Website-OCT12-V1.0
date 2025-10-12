@@ -38,6 +38,12 @@ function Navbar() {
             <button onClick={() => scrollToSection('contact')} className="text-gray-700 hover:text-purple-600 transition font-medium">
               Contact
             </button>
+            <a 
+              href="/admin" 
+              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300 font-medium"
+            >
+              Admin
+            </a>
           </div>
 
           {/* Mobile menu button */}
@@ -77,6 +83,12 @@ function Navbar() {
             <button onClick={() => scrollToSection('contact')} className="block w-full text-left px-3 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-md">
               Contact
             </button>
+            <a 
+              href="/admin" 
+              className="block w-full text-left px-3 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-md hover:opacity-90 transition"
+            >
+              Admin Panel
+            </a>
           </div>
         </div>
       )}
