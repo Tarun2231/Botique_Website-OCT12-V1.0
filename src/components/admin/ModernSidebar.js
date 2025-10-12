@@ -113,42 +113,51 @@ function ModernSidebar({ activeView, setActiveView, setSelectedOrder, orders, up
         </div>
 
         {/* Quick Status Management */}
-        <div className="mt-4">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Quick Status</h3>
-          <div className="space-y-2">
-            {orders.slice(0, 3).map((order) => (
-              <div key={order.id} className="bg-gray-50 rounded-lg p-2">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-lg">{getStatusIcon(order.status)}</span>
-                    <div>
-                      <p className="text-xs font-semibold text-gray-800">#{order.id}</p>
-                      <p className="text-xs text-gray-600">{order.clientName}</p>
+        <div className="mt-4 border-t border-gray-200 pt-4">
+          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center">
+            <span className="mr-2">⚡</span> Quick Status
+          </h3>
+          <div className="space-y-3">
+            {orders.length > 0 ? (
+              orders.slice(0, 3).map((order) => (
+                <div key={order.id} className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-3 border border-purple-100">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center space-x-3">
+                      <span className="text-xl">{getStatusIcon(order.status)}</span>
+                      <div>
+                        <p className="text-sm font-bold text-gray-800">#{order.id}</p>
+                        <p className="text-xs text-gray-600">{order.clientName}</p>
+                      </div>
                     </div>
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${getStatusBadge(order.status)}`}>
+                      {order.status}
+                    </span>
                   </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusBadge(order.status)}`}>
-                    {order.status}
-                  </span>
+                  
+                  <div className="flex space-x-2">
+                    {['Pending', 'In Progress', 'Delivered'].map((status) => (
+                      <button
+                        key={status}
+                        onClick={() => handleStatusChange(order, status)}
+                        disabled={order.status === status}
+                        className={`flex-1 flex items-center justify-center space-x-1 px-3 py-2 rounded-lg text-xs font-semibold transition transform hover:scale-105 ${
+                          order.status === status
+                            ? 'bg-purple-200 text-purple-800 cursor-not-allowed border-2 border-purple-300'
+                            : 'bg-white text-gray-700 hover:bg-purple-100 hover:text-purple-800 border border-gray-200 hover:border-purple-300 shadow-sm'
+                        }`}
+                      >
+                        <span className="text-sm">{getStatusIcon(status)}</span>
+                        <span className="hidden sm:inline">{status}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                
-                <div className="flex space-x-1">
-                  {['Pending', 'In Progress', 'Delivered'].map((status) => (
-                    <button
-                      key={status}
-                      onClick={() => handleStatusChange(order, status)}
-                      disabled={order.status === status}
-                      className={`flex-1 px-2 py-1 rounded text-xs font-medium transition ${
-                        order.status === status
-                          ? 'bg-purple-100 text-purple-700 cursor-not-allowed'
-                          : 'bg-white text-gray-700 hover:bg-purple-50 hover:text-purple-700'
-                      }`}
-                    >
-                      {getStatusIcon(status)}
-                    </button>
-                  ))}
-                </div>
+              ))
+            ) : (
+              <div className="bg-gray-50 rounded-lg p-4 text-center">
+                <p className="text-sm text-gray-600">No orders available</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>
