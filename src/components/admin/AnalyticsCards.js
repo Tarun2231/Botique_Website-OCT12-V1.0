@@ -9,8 +9,8 @@ function AnalyticsCards({ stats, setActiveView }) {
       changeType: 'positive',
       subtitle: 'vs last month',
       icon: '💰',
-      gradient: 'from-green-500 to-green-600',
-      bgColor: 'bg-green-50',
+      gradient: 'from-elegant-darkGold to-elegant-gold',
+      bgColor: 'bg-elegant-cream',
       onClick: null
     },
     {
@@ -20,8 +20,8 @@ function AnalyticsCards({ stats, setActiveView }) {
       changeType: 'positive',
       subtitle: 'vs last month',
       icon: '📦',
-      gradient: 'from-blue-500 to-blue-600',
-      bgColor: 'bg-blue-50',
+      gradient: 'from-elegant-gold to-elegant-darkGold',
+      bgColor: 'bg-elegant-cream',
       onClick: () => setActiveView('orders')
     },
     {
@@ -31,8 +31,8 @@ function AnalyticsCards({ stats, setActiveView }) {
       changeType: 'positive',
       subtitle: 'vs last month',
       icon: '👥',
-      gradient: 'from-purple-500 to-purple-600',
-      bgColor: 'bg-purple-50',
+      gradient: 'from-elegant-purple to-elegant-deepPurple',
+      bgColor: 'bg-elegant-cream',
       onClick: () => setActiveView('orders')
     },
     {
@@ -42,8 +42,8 @@ function AnalyticsCards({ stats, setActiveView }) {
       changeType: 'positive',
       subtitle: 'vs last month',
       icon: '📊',
-      gradient: 'from-pink-500 to-pink-600',
-      bgColor: 'bg-pink-50',
+      gradient: 'from-elegant-darkGold to-elegant-purple',
+      bgColor: 'bg-elegant-cream',
       onClick: null
     }
   ];
@@ -71,9 +71,9 @@ function AnalyticsCards({ stats, setActiveView }) {
             </div>
           </div>
           <div>
-            <h3 className="text-gray-600 text-sm font-semibold mb-1">{card.title}</h3>
-            <p className="text-3xl font-bold text-gray-800 mb-1">{card.value}</p>
-            <p className="text-xs text-gray-500">{card.subtitle}</p>
+            <h3 className="text-[#4a3b30] text-sm font-semibold mb-1">{card.title}</h3>
+            <p className="text-3xl font-bold text-elegant-black font-elegant mb-1">{card.value}</p>
+            <p className="text-xs text-[#4a3b30]/70">{card.subtitle}</p>
           </div>
         </div>
       ))}

@@ -129,17 +129,17 @@ function AdminDashboard({ orders, setOrders }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-elegant-cream flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading dashboard data...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-elegant-gold mx-auto mb-4"></div>
+          <p className="text-[#4a3b30] font-elegant text-lg">Loading dashboard data...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-elegant-cream flex">
           <ModernSidebar 
             activeView={activeView} 
             setActiveView={setActiveView} 

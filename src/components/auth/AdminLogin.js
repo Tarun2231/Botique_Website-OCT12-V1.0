@@ -87,17 +87,17 @@ function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-elegant-cream flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
-          <div className="mx-auto h-20 w-20 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center shadow-lg">
+          <div className="mx-auto h-20 w-20 bg-gradient-to-br from-elegant-darkGold to-elegant-gold rounded-full flex items-center justify-center shadow-lg">
             <span className="text-3xl text-white">🔐</span>
           </div>
-          <h2 className="mt-6 text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <h2 className="mt-6 text-4xl font-bold text-elegant-black font-elegant">
             Admin Login
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-sm text-[#4a3b30]">
             Sign in to access the Elegant Stitches Admin Dashboard
           </p>
         </div>
@@ -117,7 +117,7 @@ function AdminLogin() {
             )}
 
             <div>
-              <label htmlFor="username" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label htmlFor="username" className="block text-sm font-semibold text-[#4a3b30] mb-2">
                 Username
               </label>
               <input
@@ -127,8 +127,8 @@ function AdminLogin() {
                 autoComplete="username"
                 value={formData.username}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition ${
-                  errors.username ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold transition ${
+                  errors.username ? 'border-red-500' : 'border-elegant-gold/30'
                 }`}
                 placeholder="Enter your username"
                 disabled={isLoading}
@@ -139,7 +139,7 @@ function AdminLogin() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-semibold text-[#4a3b30] mb-2">
                 Password
               </label>
               <input
@@ -149,8 +149,8 @@ function AdminLogin() {
                 autoComplete="current-password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition ${
-                  errors.password ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold transition ${
+                  errors.password ? 'border-red-500' : 'border-elegant-gold/30'
                 }`}
                 placeholder="Enter your password"
                 disabled={isLoading}
@@ -167,7 +167,7 @@ function AdminLogin() {
                 className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-sm font-semibold text-white transition-all duration-300 ${
                   isLoading
                     ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-xl hover:scale-105'
+                    : 'bg-gradient-to-r from-elegant-darkGold to-elegant-gold hover:shadow-xl hover:scale-105'
                 }`}
               >
                 {isLoading ? (
@@ -186,15 +186,15 @@ function AdminLogin() {
           </form>
 
           {/* Demo Credentials */}
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-            <h3 className="text-sm font-semibold text-blue-800 mb-2">Demo Credentials:</h3>
-            <div className="text-xs text-blue-700 space-y-1">
+          <div className="mt-6 p-4 bg-elegant-cream rounded-lg border border-elegant-gold/30">
+            <h3 className="text-sm font-semibold text-elegant-darkGold mb-2 font-elegant">Demo Credentials:</h3>
+            <div className="text-xs text-[#4a3b30] space-y-1">
               <p><strong>Username:</strong> admin</p>
               <p><strong>Password:</strong> admin123</p>
             </div>
             <button
               onClick={handleDemoLogin}
-              className="mt-3 text-xs text-blue-600 hover:text-blue-800 underline"
+              className="mt-3 text-xs text-elegant-gold hover:text-elegant-darkGold underline"
               disabled={isLoading}
             >
               Fill demo credentials
@@ -205,7 +205,7 @@ function AdminLogin() {
           <div className="mt-6 text-center">
             <a
               href="/"
-              className="text-sm text-gray-600 hover:text-purple-600 transition font-medium"
+              className="text-sm text-[#4a3b30] hover:text-elegant-gold transition font-medium"
             >
               ← Back to Elegant Stitches
             </a>
@@ -214,7 +214,7 @@ function AdminLogin() {
 
         {/* Footer */}
         <div className="text-center">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-[#4a3b30]">
             © 2025 Elegant Stitches. Secure Admin Access.
           </p>
         </div>

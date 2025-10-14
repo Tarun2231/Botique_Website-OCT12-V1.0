@@ -66,12 +66,12 @@ function TopHeader({ searchTerm, setSearchTerm, orders, updateOrder }) {
   };
 
   return (
-    <div className="bg-white shadow-sm border-b border-gray-200 px-8 py-4">
+    <div className="bg-white shadow-sm border-b border-elegant-gold/20 px-8 py-4">
       <div className="flex items-center justify-between">
         {/* Left side - Welcome message */}
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Welcome back, {user?.username}!</h1>
-          <p className="text-gray-600">Here's what's happening with your boutique today.</p>
+          <h1 className="text-2xl font-bold text-elegant-black font-elegant">Welcome back, {user?.username}!</h1>
+          <p className="text-[#4a3b30]">Here's what's happening with your boutique today.</p>
         </div>
 
         {/* Center - Search */}
@@ -82,7 +82,7 @@ function TopHeader({ searchTerm, setSearchTerm, orders, updateOrder }) {
               placeholder="Search orders, clients..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-elegant-gold/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
             />
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -98,7 +98,7 @@ function TopHeader({ searchTerm, setSearchTerm, orders, updateOrder }) {
           <div className="relative">
             <button
               onClick={() => setShowQuickStatus(!showQuickStatus)}
-              className="relative p-2 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition"
+              className="relative p-2 text-[#4a3b30] hover:text-elegant-gold hover:bg-elegant-cream rounded-lg transition"
               title="Quick Status Update"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -153,8 +153,8 @@ function TopHeader({ searchTerm, setSearchTerm, orders, updateOrder }) {
 
           {/* Date */}
           <div className="text-right">
-            <p className="text-sm text-gray-600">Today</p>
-            <p className="font-semibold text-gray-800">
+            <p className="text-sm text-[#4a3b30]">Today</p>
+            <p className="font-semibold text-elegant-black">
               {new Date().toLocaleDateString('en-US', { 
                 weekday: 'long', 
                 month: 'short', 
@@ -167,7 +167,7 @@ function TopHeader({ searchTerm, setSearchTerm, orders, updateOrder }) {
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
-              className="relative p-2 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition"
+              className="relative p-2 text-[#4a3b30] hover:text-elegant-gold hover:bg-elegant-cream rounded-lg transition"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
@@ -210,12 +210,12 @@ function TopHeader({ searchTerm, setSearchTerm, orders, updateOrder }) {
 
           {/* User Profile */}
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-bold">
+            <div className="w-10 h-10 bg-gradient-to-br from-elegant-darkGold to-elegant-gold rounded-full flex items-center justify-center text-white font-bold">
               {user?.username?.charAt(0).toUpperCase() || 'A'}
             </div>
             <div className="text-left">
-              <p className="font-semibold text-gray-800">{user?.username || 'Admin'}</p>
-              <p className="text-xs text-gray-600">Administrator</p>
+              <p className="font-semibold text-elegant-black">{user?.username || 'Admin'}</p>
+              <p className="text-xs text-[#4a3b30]">Administrator</p>
             </div>
           </div>
         </div>

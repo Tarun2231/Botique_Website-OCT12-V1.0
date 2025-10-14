@@ -35,11 +35,11 @@ function ModernDashboard({ orders, stats, setActiveView, setSelectedOrder, updat
   return (
     <div className="space-y-8">
       {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl shadow-xl p-8 text-white">
+      <div className="bg-gradient-to-r from-elegant-darkGold to-elegant-gold rounded-2xl shadow-xl p-8 text-white">
         <div className="flex justify-between items-start">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Welcome back, Admin!</h1>
-            <p className="text-purple-100 text-lg">Your tailoring boutique is performing excellently. Here's your overview.</p>
+            <h1 className="text-3xl font-bold mb-2 font-elegant">Welcome back, Admin!</h1>
+            <p className="text-white/90 text-lg">Your tailoring boutique is performing excellently. Here's your overview.</p>
             <div className="mt-4 flex items-center space-x-4">
               <div className="bg-white/20 rounded-lg px-4 py-2">
                 <span className="text-sm">All systems running smoothly</span>
@@ -56,7 +56,7 @@ function ModernDashboard({ orders, stats, setActiveView, setSelectedOrder, updat
             </div>
           </div>
           <div className="text-right">
-            <p className="text-purple-100 text-sm">Today</p>
+            <p className="text-white/90 text-sm">Today</p>
             <p className="text-2xl font-bold">{new Date().toLocaleDateString('en-US', { 
               weekday: 'long', 
               year: 'numeric', 
@@ -71,10 +71,10 @@ function ModernDashboard({ orders, stats, setActiveView, setSelectedOrder, updat
       <AnalyticsCards stats={enhancedStats} setActiveView={setActiveView} />
 
       {/* Sales Distribution Banner */}
-      <div className="bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl shadow-xl p-8 text-white relative overflow-hidden">
+      <div className="bg-gradient-to-br from-elegant-darkGold via-elegant-gold to-elegant-purple rounded-2xl shadow-xl p-8 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="relative z-10">
-          <h2 className="text-2xl font-bold mb-2">Sales Distribution</h2>
+          <h2 className="text-2xl font-bold mb-2 font-elegant">Sales Distribution</h2>
           <p className="text-white/80 mb-6">This is all over Platform Sales Generated</p>
           
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
