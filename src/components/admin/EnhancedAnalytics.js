@@ -24,7 +24,10 @@ function EnhancedAnalytics({ orders, stats }) {
       periodData.push({
         date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
         orders: dayOrders.length,
-        revenue: dayOrders.reduce((sum, order) => sum + (order.paymentStatus === 'Paid' ? order.amount : 0), 0),
+        revenue: dayOrders.reduce((sum, order) => {
+          const amount = order.pricing?.total || order.amount || 0;
+          return sum + (order.paymentStatus === 'Paid' ? amount : 0);
+        }, 0),
         clients: [...new Set(dayOrders.map(order => order.clientName))].length
       });
     }
@@ -44,7 +47,10 @@ function EnhancedAnalytics({ orders, stats }) {
       percentage: Math.round((count / orders.length) * 100),
       revenue: orders
         .filter(order => order.garmentType === type)
-        .reduce((sum, order) => sum + (order.paymentStatus === 'Paid' ? order.amount : 0), 0)
+        .reduce((sum, order) => {
+          const amount = order.pricing?.total || order.amount || 0;
+          return sum + (order.paymentStatus === 'Paid' ? amount : 0);
+        }, 0)
     }));
   };
 

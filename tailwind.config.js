@@ -30,10 +30,21 @@ module.exports = {
           700: '#15803d',
           800: '#166534',
           900: '#14532d',
+        },
+        elegant: {
+          gold: '#d4a05c',
+          darkGold: '#a0713e',
+          cream: '#faf1e8',
+          purple: '#6f4382',
+          deepPurple: '#4e305a',
+          black: '#1a1a1a',
         }
+      },
+      fontFamily: {
+        'display': ['Georgia', 'Garamond', 'serif'],
+        'elegant': ['Playfair Display', 'Georgia', 'serif'],
       }
     },
   },
   plugins: [],
 }
-

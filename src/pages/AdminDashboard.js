@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ModernSidebar from '../components/admin/ModernSidebar';
 import TopHeader from '../components/admin/TopHeader';
 import ModernDashboard from '../components/admin/ModernDashboard';
@@ -7,12 +7,69 @@ import AddClientForm from '../components/admin/AddClientForm';
 import OrdersTable from '../components/admin/OrdersTable';
 import OrderDetails from '../components/admin/OrderDetails';
 import StatusManager from '../components/admin/StatusManager';
+import { ordersAPI, analyticsAPI } from '../services/api';
 
 function AdminDashboard({ orders, setOrders }) {
   const [activeView, setActiveView] = useState('overview');
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [realStats, setRealStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch real data from backend
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch orders from backend
+        const ordersResponse = await ordersAPI.getAll();
+        console.log('Orders API Response:', ordersResponse);
+        
+        if (ordersResponse.data?.orders) {
+          // Transform backend orders to frontend format
+          const transformedOrders = ordersResponse.data.orders.map(order => ({
+            id: order._id,
+            orderNumber: order.orderNumber,
+            clientName: order.client?.name || 'Unknown Client',
+            clientEmail: order.client?.email,
+            clientPhone: order.client?.phone,
+            garmentType: order.items?.[0]?.itemType || 'Unknown',
+            fabricType: order.items?.[0]?.fabric || 'Unknown',
+            designNotes: order.items?.[0]?.description || '',
+            measurements: order.measurements || {},
+            status: order.status === 'in-progress' ? 'In Progress' : 
+                   order.status === 'ready-for-fitting' ? 'Ready for Fitting' :
+                   order.status.charAt(0).toUpperCase() + order.status.slice(1),
+            paymentStatus: order.paymentStatus === 'paid' ? 'Paid' :
+                          order.paymentStatus === 'partial' ? 'Partial' :
+                          order.paymentStatus === 'pending' ? 'Pending' : 'Pending',
+            paymentMethod: 'Cash', // Default, could be enhanced
+            amount: order.pricing?.total || 0,
+            date: order.dates?.orderDate ? new Date(order.dates.orderDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
+          }));
+          setOrders(transformedOrders);
+        }
+
+        // Fetch analytics from backend
+        const analyticsResponse = await analyticsAPI.getDashboard();
+        console.log('Analytics API Response:', analyticsResponse);
+        
+        if (analyticsResponse.data) {
+          setRealStats(analyticsResponse.data.summary);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        console.log('Falling back to existing orders data');
+        // Keep using existing orders if API fails
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [setOrders]);
 
   // Add new order
   const addOrder = (newOrder) => {
@@ -51,14 +108,35 @@ function AdminDashboard({ orders, setOrders }) {
     return matchesSearch && matchesFilter;
   });
 
-  // Calculate stats
-  const stats = {
+  // Calculate stats - use real backend data if available, otherwise calculate from orders
+  const stats = realStats ? {
+    total: realStats.totalOrders || orders.length,
+    pending: orders.filter(o => o.status === 'Pending').length,
+    inProgress: orders.filter(o => o.status === 'In Progress').length,
+    delivered: orders.filter(o => o.status === 'Delivered').length,
+    revenue: realStats.totalRevenue || 0
+  } : {
     total: orders.length,
     pending: orders.filter(o => o.status === 'Pending').length,
     inProgress: orders.filter(o => o.status === 'In Progress').length,
     delivered: orders.filter(o => o.status === 'Delivered').length,
-    revenue: orders.reduce((sum, o) => sum + (o.paymentStatus === 'Paid' ? o.amount : 0), 0)
+    revenue: orders.reduce((sum, o) => {
+      // Handle both old format (o.amount) and new format (o.pricing.total)
+      const amount = o.pricing?.total || o.amount || 0;
+      return sum + (o.paymentStatus === 'Paid' ? amount : 0);
+    }, 0)
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading dashboard data...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex">

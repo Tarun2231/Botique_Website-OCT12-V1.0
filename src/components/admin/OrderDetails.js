@@ -3,6 +3,7 @@ import PaymentCheckout from './PaymentCheckout';
 import PaymentGateway from './PaymentGateway';
 import InvoiceGenerator from './InvoiceGenerator';
 import MeasurementDetails from './MeasurementDetails';
+import PaymentBalance from './PaymentBalance';
 
 function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -64,9 +65,16 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
   };
 
   const getPaymentBadge = (paymentStatus) => {
-    return paymentStatus === 'Paid' 
-      ? 'bg-green-100 text-green-800' 
-      : 'bg-red-100 text-red-800';
+    switch(paymentStatus) {
+      case 'Paid':
+        return 'bg-green-100 text-green-800';
+      case 'Partial':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'Unpaid':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
   };
 
   const handleSave = () => {
@@ -451,6 +459,16 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
                 <p className="text-3xl font-bold text-gray-800">₹{order.amount}</p>
               </div>
 
+              {order.advanceAmount && (
+                <div className="bg-yellow-50 p-4 rounded-lg">
+                  <p className="text-gray-600 text-sm mb-2">Advance Paid</p>
+                  <p className="text-2xl font-bold text-yellow-800">₹{order.advanceAmount}</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Remaining: ₹{order.amount - order.advanceAmount}
+                  </p>
+                </div>
+              )}
+
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Payment Status</span>
@@ -493,6 +511,15 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
               )}
             </div>
           </div>
+
+          {/* Payment Balance */}
+          <PaymentBalance 
+            order={order} 
+            onPaymentAdded={(payment) => {
+              // Update order with new payment info
+              console.log('Payment added:', payment);
+            }}
+          />
 
           {/* Actions */}
           <div className="bg-white rounded-2xl shadow-lg p-6">

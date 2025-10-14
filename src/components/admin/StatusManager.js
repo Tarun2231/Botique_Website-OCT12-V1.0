@@ -25,6 +25,19 @@ function StatusManager({ orders, updateOrder, setActiveView, setSelectedOrder })
     }
   };
 
+  const getPaymentBadge = (paymentStatus) => {
+    switch(paymentStatus) {
+      case 'Paid':
+        return 'bg-green-100 text-green-800';
+      case 'Partial':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'Unpaid':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
   const handleStatusChange = (order, newStatus) => {
     if (newStatus === 'Delivered') {
       // Show date picker for delivered status
