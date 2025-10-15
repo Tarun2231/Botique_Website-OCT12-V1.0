@@ -271,10 +271,24 @@ function AddClientForm({ addOrder, setActiveView }) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-elegant-gold to-elegant-darkGold rounded-2xl p-6 text-white">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold font-elegant">Add New Client Order</h1>
+            <p className="text-white/90 mt-2">Fill in the details to create a new tailoring order</p>
+          </div>
+          <button
+            onClick={() => setActiveView('orders')}
+            className="bg-white/20 hover:bg-white/30 rounded-lg px-6 py-3 font-semibold transition-colors"
+          >
+            ← Back to Orders
+          </button>
+        </div>
+      </div>
+
       <div className="bg-white rounded-2xl shadow-lg p-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Add New Client Order</h1>
-        <p className="text-gray-600 mb-8">Fill in the details to create a new tailoring order</p>
 
         {showSuccess && (
           <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
@@ -297,7 +311,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                   name="clientName"
                   value={formData.clientName}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent ${
                     errors.clientName ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="John Doe"
@@ -312,7 +326,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent ${
                     errors.phone ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="+91 9876543210"
@@ -327,7 +341,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent ${
                     errors.email ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="john@example.com"
@@ -342,7 +356,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent ${
                     errors.address ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="123 Main Street"
@@ -364,7 +378,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                   name="garmentType"
                   value={formData.garmentType}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
                 >
                   {/* Men's Clothing */}
                   <optgroup label="👔 Men's Clothing">
@@ -462,7 +476,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                   name="fabricType"
                   value={formData.fabricType}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent ${
                     errors.fabricType ? 'border-red-500' : 'border-gray-300'
                   }`}
                 >
@@ -569,7 +583,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                     type="text"
                     name="customFabricType"
                     placeholder="Specify custom fabric type..."
-                    className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
                     onChange={(e) => setFormData(prev => ({ ...prev, fabricType: e.target.value }))}
                   />
                 )}
@@ -582,7 +596,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                   value={formData.designNotes}
                   onChange={handleChange}
                   rows="3"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
                   placeholder="Special design requirements, preferences, etc..."
                 ></textarea>
               </div>
@@ -677,7 +691,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                           name={measurement.key}
                           value={formData.measurements[measurement.key]}
                           onChange={handleMeasurementChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
                           placeholder="0.0"
                         />
                       </div>
@@ -715,7 +729,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                   name="status"
                   value={formData.status}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
                 >
                   <option value="Pending">Pending</option>
                   <option value="In Progress">In Progress</option>
@@ -730,7 +744,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                   name="amount"
                   value={formData.amount}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent ${
                     errors.amount ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="2500"
@@ -745,7 +759,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                   name="advanceAmount"
                   value={formData.advanceAmount}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent ${
                     errors.advanceAmount ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="1000"
@@ -760,7 +774,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                   name="paymentStatus"
                   value={formData.paymentStatus}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
                 >
                   <option value="Paid">Paid</option>
                   <option value="Partial">Partial</option>
@@ -774,7 +788,7 @@ function AddClientForm({ addOrder, setActiveView }) {
                   name="paymentMethod"
                   value={formData.paymentMethod}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
                 >
                   <option value="Cash">Cash</option>
                   <option value="UPI">UPI</option>
@@ -789,7 +803,7 @@ function AddClientForm({ addOrder, setActiveView }) {
           <div className="pt-6 border-t flex flex-col sm:flex-row gap-4">
             <button
               type="submit"
-              className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300"
+              className="flex-1 bg-gradient-to-r from-elegant-gold to-elegant-darkGold text-white px-8 py-4 rounded-lg text-lg font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300"
             >
               Create Order
             </button>

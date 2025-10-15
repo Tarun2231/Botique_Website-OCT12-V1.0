@@ -25,18 +25,18 @@ function StatusManager({ orders, updateOrder, setActiveView, setSelectedOrder })
     }
   };
 
-  const getPaymentBadge = (paymentStatus) => {
-    switch(paymentStatus) {
-      case 'Paid':
-        return 'bg-green-100 text-green-800';
-      case 'Partial':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'Unpaid':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
+  // const getPaymentBadge = (paymentStatus) => {
+  //   switch(paymentStatus) {
+  //     case 'Paid':
+  //       return 'bg-green-100 text-green-800';
+  //     case 'Partial':
+  //       return 'bg-yellow-100 text-yellow-800';
+  //     case 'Unpaid':
+  //       return 'bg-red-100 text-red-800';
+  //     default:
+  //       return 'bg-gray-100 text-gray-800';
+  //   }
+  // };
 
   const handleStatusChange = (order, newStatus) => {
     if (newStatus === 'Delivered') {
@@ -84,154 +84,155 @@ function StatusManager({ orders, updateOrder, setActiveView, setSelectedOrder })
   };
 
   return (
-    <div className="p-8">
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-6">
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-elegant-gold to-elegant-darkGold rounded-2xl p-6 text-white">
+        <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">Status Manager</h1>
-            <p className="text-gray-600">Manage order statuses and track progress</p>
+            <h1 className="text-3xl font-bold font-elegant">Status Manager</h1>
+            <p className="text-white/90 mt-2">Manage order statuses and track progress</p>
           </div>
           <button
             onClick={() => setActiveView('orders')}
-            className="px-6 py-2 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition"
+            className="bg-white/20 hover:bg-white/30 rounded-lg px-6 py-3 font-semibold transition-colors"
           >
             ← Back to Orders
           </button>
         </div>
+      </div>
 
-        {/* Status Overview Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-2xl p-6 border border-yellow-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-semibold text-yellow-800">Pending Orders</h3>
-                <p className="text-3xl font-bold text-yellow-900">{statusCounts['Pending']}</p>
-              </div>
-              <div className="text-4xl">⏳</div>
+      {/* Status Overview Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-2xl p-6 border border-yellow-200">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-yellow-800">Pending Orders</h3>
+              <p className="text-3xl font-bold text-yellow-900">{statusCounts['Pending']}</p>
             </div>
-          </div>
-
-          <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-semibold text-blue-800">In Progress</h3>
-                <p className="text-3xl font-bold text-blue-900">{statusCounts['In Progress']}</p>
-              </div>
-              <div className="text-4xl">⚙️</div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-2xl p-6 border border-green-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-semibold text-green-800">Delivered</h3>
-                <p className="text-3xl font-bold text-green-900">{statusCounts['Delivered']}</p>
-              </div>
-              <div className="text-4xl">✅</div>
-            </div>
+            <div className="text-4xl">⏳</div>
           </div>
         </div>
 
-        {/* Filters */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Search Orders</label>
-              <input
-                type="text"
-                placeholder="Search by client name or order ID..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
+        <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-blue-800">In Progress</h3>
+              <p className="text-3xl font-bold text-blue-900">{statusCounts['In Progress']}</p>
             </div>
-            <div className="md:w-64">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Status</label>
-              <select
-                value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-              >
-                <option value="all">All Statuses</option>
-                <option value="Pending">⏳ Pending</option>
-                <option value="In Progress">⚙️ In Progress</option>
-                <option value="Delivered">✅ Delivered</option>
-              </select>
-            </div>
+            <div className="text-4xl">⚙️</div>
           </div>
         </div>
 
-        {/* Orders List */}
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-xl font-bold text-gray-800">
-              Orders ({filteredOrders.length})
-            </h2>
+        <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-2xl p-6 border border-green-200">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-green-800">Delivered</h3>
+              <p className="text-3xl font-bold text-green-900">{statusCounts['Delivered']}</p>
+            </div>
+            <div className="text-4xl">✅</div>
           </div>
+        </div>
+      </div>
 
-          <div className="divide-y divide-gray-200">
-            {filteredOrders.length > 0 ? (
-              filteredOrders.map((order) => (
-                <div key={order.id} className="p-6 hover:bg-gray-50 transition">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-4">
-                      <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl">
-                        <span className="text-2xl">{getStatusIcon(order.status)}</span>
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-800">
-                          #{order.id} - {order.clientName}
-                        </h3>
-                        <p className="text-sm text-gray-600">{order.garmentType} • {order.date}</p>
-                      </div>
+      {/* Filters */}
+      <div className="bg-white rounded-2xl shadow-lg p-6">
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex-1">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Search Orders</label>
+            <input
+              type="text"
+              placeholder="Search by client name or order ID..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
+            />
+          </div>
+          <div className="md:w-64">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Status</label>
+            <select
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
+            >
+              <option value="all">All Statuses</option>
+              <option value="Pending">⏳ Pending</option>
+              <option value="In Progress">⚙️ In Progress</option>
+              <option value="Delivered">✅ Delivered</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* Orders List */}
+      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="p-6 border-b border-gray-200">
+          <h2 className="text-xl font-bold text-gray-800">
+            Orders ({filteredOrders.length})
+          </h2>
+        </div>
+
+        <div className="divide-y divide-gray-200">
+          {filteredOrders.length > 0 ? (
+            filteredOrders.map((order) => (
+              <div key={order.id} className="p-6 hover:bg-gray-50 transition">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl">
+                      <span className="text-2xl">{getStatusIcon(order.status)}</span>
                     </div>
-                    <div className="flex items-center space-x-3">
-                      <span className={`px-4 py-2 rounded-full text-sm font-bold ${getStatusBadge(order.status)}`}>
-                        {order.status}
-                      </span>
-                      <button
-                        onClick={() => {
-                          setActiveView('order-details');
-                          setSelectedOrder(order);
-                        }}
-                        className="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition text-sm font-semibold"
-                      >
-                        View Details
-                      </button>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800">
+                        #{order.id} - {order.clientName}
+                      </h3>
+                      <p className="text-sm text-gray-600">{order.garmentType} • {order.date}</p>
                     </div>
                   </div>
-
-                  {/* Quick Status Change */}
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-3">Quick Status Update</h4>
-                    <div className="flex space-x-3">
-                      {['Pending', 'In Progress', 'Delivered'].map((status) => (
-                        <button
-                          key={status}
-                          onClick={() => handleStatusChange(order, status)}
-                          disabled={order.status === status}
-                          className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-semibold transition transform hover:scale-105 ${
-                            order.status === status
-                              ? 'bg-purple-200 text-purple-800 cursor-not-allowed border-2 border-purple-300'
-                              : 'bg-white text-gray-700 hover:bg-purple-100 hover:text-purple-800 border border-gray-200 hover:border-purple-300 shadow-sm'
-                          }`}
-                        >
-                          <span className="text-lg">{getStatusIcon(status)}</span>
-                          <span>{status}</span>
-                        </button>
-                      ))}
-                    </div>
+                  <div className="flex items-center space-x-3">
+                    <span className={`px-4 py-2 rounded-full text-sm font-bold ${getStatusBadge(order.status)}`}>
+                      {order.status}
+                    </span>
+                    <button
+                      onClick={() => {
+                        setActiveView('order-details');
+                        setSelectedOrder(order);
+                      }}
+                      className="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition text-sm font-semibold"
+                    >
+                      View Details
+                    </button>
                   </div>
                 </div>
-              ))
-            ) : (
-              <div className="p-8 text-center">
-                <div className="text-6xl mb-4">📋</div>
-                <h3 className="text-lg font-semibold text-gray-600 mb-2">No orders found</h3>
-                <p className="text-gray-500">Try adjusting your search or filter criteria</p>
+
+                {/* Quick Status Change */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Quick Status Update</h4>
+                  <div className="flex space-x-3">
+                    {['Pending', 'In Progress', 'Delivered'].map((status) => (
+                      <button
+                        key={status}
+                        onClick={() => handleStatusChange(order, status)}
+                        disabled={order.status === status}
+                        className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-semibold transition transform hover:scale-105 ${
+                          order.status === status
+                            ? 'bg-purple-200 text-purple-800 cursor-not-allowed border-2 border-purple-300'
+                            : 'bg-white text-gray-700 hover:bg-purple-100 hover:text-purple-800 border border-gray-200 hover:border-purple-300 shadow-sm'
+                        }`}
+                      >
+                        <span className="text-lg">{getStatusIcon(status)}</span>
+                        <span>{status}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
-            )}
-          </div>
+            ))
+          ) : (
+            <div className="p-8 text-center">
+              <div className="text-6xl mb-4">📋</div>
+              <h3 className="text-lg font-semibold text-gray-600 mb-2">No orders found</h3>
+              <p className="text-gray-500">Try adjusting your search or filter criteria</p>
+            </div>
+          )}
         </div>
       </div>
 

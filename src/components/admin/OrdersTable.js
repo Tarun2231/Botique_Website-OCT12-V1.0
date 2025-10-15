@@ -53,14 +53,25 @@ function OrdersTable({
   };
 
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">All Orders</h1>
-        <p className="text-gray-600">Manage and track all client orders</p>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-elegant-gold to-elegant-darkGold rounded-2xl p-6 text-white">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold font-elegant">Orders Management</h1>
+            <p className="text-white/90 mt-2">Manage and track all client orders</p>
+          </div>
+          <button
+            onClick={() => setActiveView('add-client')}
+            className="bg-white/20 hover:bg-white/30 rounded-lg px-6 py-3 font-semibold transition-colors"
+          >
+            + Add New Order
+          </button>
+        </div>
       </div>
 
       {/* Search and Filter */}
-      <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+      <div className="bg-white rounded-2xl shadow-lg p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-gray-700 font-semibold mb-2">Search Orders</label>
@@ -69,7 +80,7 @@ function OrdersTable({
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search by client name or order ID..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
             />
           </div>
           <div>
@@ -77,7 +88,7 @@ function OrdersTable({
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
             >
               <option value="all">All Status</option>
               <option value="Pending">Pending</option>

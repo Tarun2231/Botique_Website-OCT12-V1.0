@@ -118,18 +118,21 @@ function OrderDetails({ order, updateOrder, deleteOrder, setActiveView }) {
   };
 
   return (
-    <div>
-      <div className="mb-8 flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Order Details</h1>
-          <p className="text-gray-600">Order ID: #{order.id}</p>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-elegant-gold to-elegant-darkGold rounded-2xl p-6 text-white">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold font-elegant">Order Details</h1>
+            <p className="text-white/90 mt-2">Order ID: #{order.id}</p>
+          </div>
+          <button
+            onClick={() => setActiveView('orders')}
+            className="bg-white/20 hover:bg-white/30 rounded-lg px-6 py-3 font-semibold transition-colors"
+          >
+            ← Back to Orders
+          </button>
         </div>
-        <button
-          onClick={() => setActiveView('orders')}
-          className="px-6 py-2 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition"
-        >
-          ← Back to Orders
-        </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

@@ -170,7 +170,7 @@ export const invoicesAPI = {
   getData: (orderId) => apiCall(`/invoices/${orderId}/data`),
 };
 
-export default {
+const apiServices = {
   auth: authAPI,
   orders: ordersAPI,
   clients: clientsAPI,
@@ -178,3 +178,5 @@ export default {
   analytics: analyticsAPI,
   invoices: invoicesAPI,
 };
+
+export default apiServices;

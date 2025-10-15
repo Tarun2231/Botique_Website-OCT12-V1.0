@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import ModernSidebar from '../components/admin/ModernSidebar';
 import TopHeader from '../components/admin/TopHeader';
-import ModernDashboard from '../components/admin/ModernDashboard';
-import DashboardOverview from '../components/admin/DashboardOverview';
+import AirlineStyleDashboard from '../components/admin/AirlineStyleDashboard';
+import ClientManagement from '../components/admin/ClientManagement';
+import MeasurementManagement from '../components/admin/MeasurementManagement';
+import BillingPayments from '../components/admin/BillingPayments';
 import AddClientForm from '../components/admin/AddClientForm';
 import OrdersTable from '../components/admin/OrdersTable';
 import OrderDetails from '../components/admin/OrderDetails';
@@ -140,15 +142,15 @@ function AdminDashboard({ orders, setOrders }) {
 
   return (
     <div className="min-h-screen bg-elegant-cream flex">
-          <ModernSidebar 
-            activeView={activeView} 
-            setActiveView={setActiveView} 
-            setSelectedOrder={setSelectedOrder}
-            orders={orders}
-            updateOrder={updateOrder}
-          />
+      <ModernSidebar 
+        activeView={activeView} 
+        setActiveView={setActiveView} 
+        setSelectedOrder={setSelectedOrder}
+        orders={orders}
+        updateOrder={updateOrder}
+      />
       
-      <div className="flex-1 ml-64">
+      <div className="flex-1 ml-72">
         <TopHeader 
           searchTerm={searchTerm} 
           setSearchTerm={setSearchTerm}
@@ -156,50 +158,88 @@ function AdminDashboard({ orders, setOrders }) {
           updateOrder={updateOrder}
         />
         <div className="p-8">
-        {activeView === 'overview' && (
-          <ModernDashboard 
-            orders={filteredOrders} 
-            stats={stats}
-            setActiveView={setActiveView}
-            setSelectedOrder={setSelectedOrder}
-            updateOrder={updateOrder}
-          />
-        )}
 
-        {activeView === 'add-client' && (
-          <AddClientForm addOrder={addOrder} setActiveView={setActiveView} />
-        )}
+          {activeView === 'overview' && (
+            <AirlineStyleDashboard 
+              orders={filteredOrders} 
+              stats={stats}
+              setActiveView={setActiveView}
+              setSelectedOrder={setSelectedOrder}
+              updateOrder={updateOrder}
+            />
+          )}
 
-        {activeView === 'orders' && (
-          <OrdersTable 
-            orders={filteredOrders} 
-            setSelectedOrder={setSelectedOrder}
-            setActiveView={setActiveView}
-            deleteOrder={deleteOrder}
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            filterStatus={filterStatus}
-            setFilterStatus={setFilterStatus}
-          />
-        )}
+          {activeView === 'clients' && (
+            <ClientManagement />
+          )}
 
-        {activeView === 'status' && (
-          <StatusManager 
-            orders={orders} 
-            updateOrder={updateOrder}
-            setActiveView={setActiveView}
-            setSelectedOrder={setSelectedOrder}
-          />
-        )}
+          {activeView === 'measurements' && (
+            <MeasurementManagement />
+          )}
 
-        {activeView === 'order-details' && selectedOrder && (
-          <OrderDetails 
-            order={selectedOrder}
-            updateOrder={updateOrder}
-            deleteOrder={deleteOrder}
-            setActiveView={setActiveView}
-          />
-        )}
+          {activeView === 'billing' && (
+            <BillingPayments />
+          )}
+
+          {activeView === 'add-client' && (
+            <AddClientForm addOrder={addOrder} setActiveView={setActiveView} />
+          )}
+
+          {activeView === 'orders' && (
+            <OrdersTable
+              orders={filteredOrders}
+              setSelectedOrder={setSelectedOrder}
+              setActiveView={setActiveView}
+              deleteOrder={deleteOrder}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              filterStatus={filterStatus}
+              setFilterStatus={setFilterStatus}
+            />
+          )}
+
+          {activeView === 'status' && (
+            <StatusManager
+              orders={orders}
+              updateOrder={updateOrder}
+              setActiveView={setActiveView}
+              setSelectedOrder={setSelectedOrder}
+            />
+          )}
+
+          {activeView === 'order-details' && selectedOrder && (
+            <OrderDetails
+              order={selectedOrder}
+              updateOrder={updateOrder}
+              deleteOrder={deleteOrder}
+              setActiveView={setActiveView}
+            />
+          )}
+
+          {/* Placeholder for other modules */}
+          {['inventory', 'employees', 'appointments', 'reports', 'settings'].includes(activeView) && (
+            <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-6xl mb-4">
+                  {activeView === 'inventory' && '📦'}
+                  {activeView === 'employees' && '👷'}
+                  {activeView === 'appointments' && '📅'}
+                  {activeView === 'reports' && '📊'}
+                  {activeView === 'settings' && '⚙️'}
+                </div>
+                <h2 className="text-2xl font-bold text-gray-800 mb-2">
+                  {activeView.charAt(0).toUpperCase() + activeView.slice(1)} Module
+                </h2>
+                <p className="text-gray-600">This module is coming soon!</p>
+                <button
+                  onClick={() => setActiveView('overview')}
+                  className="mt-4 px-6 py-3 bg-elegant-gold hover:bg-elegant-darkGold text-white rounded-lg font-semibold transition-colors"
+                >
+                  Back to Dashboard
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
