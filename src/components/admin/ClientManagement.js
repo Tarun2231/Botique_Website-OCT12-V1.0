@@ -46,23 +46,8 @@ function ClientManagement() {
     }
   ]);
 
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [editingClient, setEditingClient] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
-
-  const [newClient, setNewClient] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    address: '',
-    preferences: [],
-    notes: '',
-    status: 'Active'
-  });
-
-  const fabricOptions = ["Cotton", "Silk", "Linen", "Chiffon", "Georgette", "Net", "Velvet", "Satin"];
-  const statusOptions = ["Active", "Inactive", "VIP"];
 
   const filteredClients = clients.filter(client => {
     const matchesSearch = client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -72,66 +57,15 @@ function ClientManagement() {
     return matchesSearch && matchesFilter;
   });
 
-  const handleAddClient = (e) => {
-    e.preventDefault();
-    const client = {
-      ...newClient,
-      id: clients.length > 0 ? Math.max(...clients.map(c => c.id)) + 1 : 1,
-      joinDate: new Date().toISOString().split('T')[0],
-      totalOrders: 0,
-      totalSpent: 0,
-      loyaltyPoints: 0
-    };
-    setClients([...clients, client]);
-    setNewClient({
-      name: '',
-      phone: '',
-      email: '',
-      address: '',
-      preferences: [],
-      notes: '',
-      status: 'Active'
-    });
-    setShowAddForm(false);
-  };
-
   const handleEditClient = (client) => {
-    setEditingClient(client);
-    setNewClient(client);
-    setShowAddForm(true);
-  };
-
-  const handleUpdateClient = (e) => {
-    e.preventDefault();
-    setClients(clients.map(client => 
-      client.id === editingClient.id ? { ...newClient, id: editingClient.id } : client
-    ));
-    setEditingClient(null);
-    setNewClient({
-      name: '',
-      phone: '',
-      email: '',
-      address: '',
-      preferences: [],
-      notes: '',
-      status: 'Active'
-    });
-    setShowAddForm(false);
+    // For now, just show an alert since we're redirecting to the full form
+    alert('Edit functionality will be available in the full form. Please use "Add New Client" to create a new order.');
   };
 
   const handleDeleteClient = (clientId) => {
     if (window.confirm('Are you sure you want to delete this client?')) {
       setClients(clients.filter(client => client.id !== clientId));
     }
-  };
-
-  const togglePreference = (preference) => {
-    setNewClient({
-      ...newClient,
-      preferences: newClient.preferences.includes(preference)
-        ? newClient.preferences.filter(p => p !== preference)
-        : [...newClient.preferences, preference]
-    });
   };
 
   return (
@@ -145,21 +79,14 @@ function ClientManagement() {
           </div>
           <button
             onClick={() => {
-              setShowAddForm(true);
-              setEditingClient(null);
-              setNewClient({
-                name: '',
-                phone: '',
-                email: '',
-                address: '',
-                preferences: [],
-                notes: '',
-                status: 'Active'
-              });
+              // Redirect to the AddClientForm instead of showing popup
+              window.location.hash = '#add-client';
+              // Trigger a custom event to change the active view
+              window.dispatchEvent(new CustomEvent('navigateToAddClient'));
             }}
             className="bg-white/20 hover:bg-white/30 rounded-lg px-6 py-3 font-semibold transition-colors"
           >
-            + Add New Client
+            + Add New Client Order
           </button>
         </div>
       </div>
@@ -311,127 +238,7 @@ function ClientManagement() {
         </div>
       </div>
 
-      {/* Add/Edit Client Modal */}
-      {showAddForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">
-                {editingClient ? 'Edit Client' : 'Add New Client'}
-              </h2>
-              <button
-                onClick={() => setShowAddForm(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl"
-              >
-                ×
-              </button>
-            </div>
-
-            <form onSubmit={editingClient ? handleUpdateClient : handleAddClient} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
-                  <input
-                    type="text"
-                    required
-                    value={newClient.name}
-                    onChange={(e) => setNewClient({...newClient, name: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Phone *</label>
-                  <input
-                    type="tel"
-                    required
-                    value={newClient.phone}
-                    onChange={(e) => setNewClient({...newClient, phone: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
-                  <input
-                    type="email"
-                    value={newClient.email}
-                    onChange={(e) => setNewClient({...newClient, email: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Status</label>
-                  <select
-                    value={newClient.status}
-                    onChange={(e) => setNewClient({...newClient, status: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
-                  >
-                    {statusOptions.map(status => (
-                      <option key={status} value={status}>{status}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Address</label>
-                <textarea
-                  value={newClient.address}
-                  onChange={(e) => setNewClient({...newClient, address: e.target.value})}
-                  rows={3}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Fabric Preferences</label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                  {fabricOptions.map(fabric => (
-                    <label key={fabric} className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={newClient.preferences.includes(fabric)}
-                        onChange={() => togglePreference(fabric)}
-                        className="rounded border-gray-300 text-elegant-gold focus:ring-elegant-gold"
-                      />
-                      <span className="text-sm text-gray-700">{fabric}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Notes</label>
-                <textarea
-                  value={newClient.notes}
-                  onChange={(e) => setNewClient({...newClient, notes: e.target.value})}
-                  rows={3}
-                  placeholder="Any special notes about this client..."
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-elegant-gold focus:border-transparent"
-                />
-              </div>
-
-              <div className="flex justify-end space-x-4">
-                <button
-                  type="button"
-                  onClick={() => setShowAddForm(false)}
-                  className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-elegant-gold hover:bg-elegant-darkGold text-white rounded-lg font-semibold transition-colors"
-                >
-                  {editingClient ? 'Update Client' : 'Add Client'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      {/* Note: Add Client functionality now redirects to the full AddClientForm */}
     </div>
   );
 }

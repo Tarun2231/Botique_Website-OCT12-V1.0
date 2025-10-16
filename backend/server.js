@@ -53,7 +53,8 @@ app.use((err, req, res, next) => {
 });
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI, {
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/elegant-stitches-boutique';
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
@@ -62,7 +63,8 @@ mongoose.connect(process.env.MONGODB_URI, {
 })
 .catch((error) => {
   console.error('❌ MongoDB connection error:', error);
-  process.exit(1);
+  console.log('⚠️  Starting server without database connection...');
+  // Don't exit - let the server run without database for testing
 });
 
 // Start server

@@ -19,47 +19,76 @@ function AdminDashboard({ orders, setOrders }) {
   const [realStats, setRealStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Listen for navigation events from ClientManagement
+  useEffect(() => {
+    const handleNavigateToAddClient = () => {
+      setActiveView('add-client');
+    };
+
+    window.addEventListener('navigateToAddClient', handleNavigateToAddClient);
+    
+    return () => {
+      window.removeEventListener('navigateToAddClient', handleNavigateToAddClient);
+    };
+  }, []);
+
   // Fetch real data from backend
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         
-        // Fetch orders from backend
-        const ordersResponse = await ordersAPI.getAll();
-        console.log('Orders API Response:', ordersResponse);
+        // Set a timeout to prevent infinite loading
+        const timeoutId = setTimeout(() => {
+          console.log('API timeout, using dummy data');
+          setLoading(false);
+        }, 3000);
         
-        if (ordersResponse.data?.orders) {
-          // Transform backend orders to frontend format
-          const transformedOrders = ordersResponse.data.orders.map(order => ({
-            id: order._id,
-            orderNumber: order.orderNumber,
-            clientName: order.client?.name || 'Unknown Client',
-            clientEmail: order.client?.email,
-            clientPhone: order.client?.phone,
-            garmentType: order.items?.[0]?.itemType || 'Unknown',
-            fabricType: order.items?.[0]?.fabric || 'Unknown',
-            designNotes: order.items?.[0]?.description || '',
-            measurements: order.measurements || {},
-            status: order.status === 'in-progress' ? 'In Progress' : 
-                   order.status === 'ready-for-fitting' ? 'Ready for Fitting' :
-                   order.status.charAt(0).toUpperCase() + order.status.slice(1),
-            paymentStatus: order.paymentStatus === 'paid' ? 'Paid' :
-                          order.paymentStatus === 'partial' ? 'Partial' :
-                          order.paymentStatus === 'pending' ? 'Pending' : 'Pending',
-            paymentMethod: 'Cash', // Default, could be enhanced
-            amount: order.pricing?.total || 0,
-            date: order.dates?.orderDate ? new Date(order.dates.orderDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
-          }));
-          setOrders(transformedOrders);
-        }
+        try {
+          // Fetch orders from backend
+          const ordersResponse = await ordersAPI.getAll();
+          console.log('Orders API Response:', ordersResponse);
+          
+          if (ordersResponse.data?.orders && ordersResponse.data.orders.length > 0) {
+            // Transform backend orders to frontend format
+            const transformedOrders = ordersResponse.data.orders.map(order => ({
+              id: order._id,
+              orderNumber: order.orderNumber,
+              clientName: order.client?.name || 'Unknown Client',
+              clientEmail: order.client?.email,
+              clientPhone: order.client?.phone,
+              garmentType: order.items?.[0]?.itemType || 'Unknown',
+              fabricType: order.items?.[0]?.fabric || 'Unknown',
+              designNotes: order.items?.[0]?.description || '',
+              measurements: order.measurements || {},
+              status: order.status === 'in-progress' ? 'In Progress' : 
+                     order.status === 'ready-for-fitting' ? 'Ready for Fitting' :
+                     order.status.charAt(0).toUpperCase() + order.status.slice(1),
+              paymentStatus: order.paymentStatus === 'paid' ? 'Paid' :
+                            order.paymentStatus === 'partial' ? 'Partial' :
+                            order.paymentStatus === 'pending' ? 'Pending' : 'Pending',
+              paymentMethod: 'Cash', // Default, could be enhanced
+              amount: order.pricing?.total || 0,
+              date: order.dates?.orderDate ? new Date(order.dates.orderDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
+            }));
+            setOrders(transformedOrders);
+          } else {
+            console.log('No orders from backend, using existing dummy data');
+            // Keep using the existing dummy orders data
+          }
 
-        // Fetch analytics from backend
-        const analyticsResponse = await analyticsAPI.getDashboard();
-        console.log('Analytics API Response:', analyticsResponse);
-        
-        if (analyticsResponse.data) {
-          setRealStats(analyticsResponse.data.summary);
+          // Fetch analytics from backend
+          const analyticsResponse = await analyticsAPI.getDashboard();
+          console.log('Analytics API Response:', analyticsResponse);
+          
+          if (analyticsResponse.data) {
+            setRealStats(analyticsResponse.data.summary);
+          }
+          
+          clearTimeout(timeoutId);
+        } catch (apiError) {
+          console.error('API Error:', apiError);
+          clearTimeout(timeoutId);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -161,11 +190,13 @@ function AdminDashboard({ orders, setOrders }) {
 
           {activeView === 'overview' && (
             <AirlineStyleDashboard 
-              orders={filteredOrders} 
+              orders={orders} 
               stats={stats}
               setActiveView={setActiveView}
               setSelectedOrder={setSelectedOrder}
               updateOrder={updateOrder}
+              searchTerm={searchTerm}
+              clearSearch={() => setSearchTerm('')}
             />
           )}
 

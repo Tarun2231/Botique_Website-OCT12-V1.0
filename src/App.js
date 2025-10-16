@@ -30,7 +30,7 @@ function App() {
       paymentStatus: "Paid",
       paymentMethod: "UPI",
       amount: 2500,
-      date: "2025-10-01"
+      date: "2024-12-01"
     },
     {
       id: 2,
@@ -54,7 +54,7 @@ function App() {
       paymentStatus: "Unpaid",
       paymentMethod: "Cash",
       amount: 1800,
-      date: "2025-10-05"
+      date: "2024-12-05"
     },
     {
       id: 3,
@@ -78,7 +78,79 @@ function App() {
       paymentStatus: "Paid",
       paymentMethod: "Card",
       amount: 4500,
-      date: "2025-09-28"
+      date: "2024-11-28"
+    },
+    {
+      id: 4,
+      clientName: "Priya Sharma",
+      phone: "+91 9876543211",
+      email: "priya@example.com",
+      address: "456 Park St, Mumbai",
+      garmentType: "Kurti",
+      fabricType: "Cotton",
+      designNotes: "Elegant cotton kurti with embroidery",
+      measurements: {
+        chest: "36",
+        waist: "30",
+        hip: "38",
+        sleeve: "28",
+        length: "42",
+        shoulder: "14",
+        neck: "13"
+      },
+      status: "In Progress",
+      paymentStatus: "Partial",
+      paymentMethod: "UPI",
+      amount: 3200,
+      date: "2024-12-10"
+    },
+    {
+      id: 5,
+      clientName: "Rajesh Kumar",
+      phone: "+91 9876543212",
+      email: "rajesh@example.com",
+      address: "789 Market St, Delhi",
+      garmentType: "Sherwani",
+      fabricType: "Silk",
+      designNotes: "Royal silk sherwani for wedding",
+      measurements: {
+        chest: "42",
+        waist: "36",
+        hip: "40",
+        sleeve: "34",
+        length: "45",
+        shoulder: "18",
+        neck: "16"
+      },
+      status: "Pending",
+      paymentStatus: "Unpaid",
+      paymentMethod: "Cash",
+      amount: 8500,
+      date: "2024-12-12"
+    },
+    {
+      id: 6,
+      clientName: "Sneha Patel",
+      phone: "+91 9876543213",
+      email: "sneha@example.com",
+      address: "321 Garden St, Bangalore",
+      garmentType: "Lehenga",
+      fabricType: "Silk",
+      designNotes: "Bridal lehenga with heavy work",
+      measurements: {
+        chest: "34",
+        waist: "28",
+        hip: "36",
+        sleeve: "26",
+        length: "38",
+        shoulder: "13",
+        neck: "12"
+      },
+      status: "In Progress",
+      paymentStatus: "Paid",
+      paymentMethod: "Card",
+      amount: 12000,
+      date: "2024-12-15"
     }
   ]);
 

@@ -49,7 +49,7 @@ export const authAPI = {
 
 // Orders API
 export const ordersAPI = {
-  getAll: () => apiCall('/orders'),
+  getAll: () => apiCall('/orders/mock'),
   
   getById: (id) => apiCall(`/orders/${id}`),
   
@@ -148,7 +148,7 @@ export const paymentsAPI = {
 export const analyticsAPI = {
   getDashboard: (params = {}) => {
     const queryString = new URLSearchParams(params).toString();
-    return apiCall(`/analytics/dashboard${queryString ? `?${queryString}` : ''}`);
+    return apiCall(`/analytics/dashboard/mock${queryString ? `?${queryString}` : ''}`);
   },
   
   getRevenue: (period = 'month') => 
