@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Botique_Website-OCT12-V1.0/static/css/main.7fb0c8b1.css",
+    "main.js": "/Botique_Website-OCT12-V1.0/static/js/main.b61e0689.js",
+    "index.html": "/Botique_Website-OCT12-V1.0/index.html",
+    "main.7fb0c8b1.css.map": "/Botique_Website-OCT12-V1.0/static/css/main.7fb0c8b1.css.map",
+    "main.b61e0689.js.map": "/Botique_Website-OCT12-V1.0/static/js/main.b61e0689.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7fb0c8b1.css",
+    "static/js/main.b61e0689.js"
+  ]
+}
