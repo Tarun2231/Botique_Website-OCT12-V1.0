@@ -1,9 +1,13 @@
 import React from 'react';
 
-function ModernSidebar({ activeView, setActiveView, setSelectedOrder, orders, updateOrder }) {
+function ModernSidebar({ activeView, setActiveView, setSelectedOrder, orders, updateOrder, sidebarOpen, setSidebarOpen }) {
   const handleNavigation = (view) => {
     setActiveView(view);
     setSelectedOrder(null);
+    // Close sidebar on mobile after navigation
+    if (window.innerWidth < 1024) {
+      setSidebarOpen(false);
+    }
   };
 
   const menuItems = [
@@ -22,22 +26,24 @@ function ModernSidebar({ activeView, setActiveView, setSelectedOrder, orders, up
   ];
 
   return (
-    <div className="w-72 bg-gradient-to-b from-elegant-cream to-white shadow-2xl h-screen fixed left-0 top-0 z-40 flex flex-col border-r-2 border-elegant-gold/30">
+    <div className={`w-72 sm:w-80 bg-gradient-to-b from-elegant-cream to-white shadow-2xl h-screen fixed left-0 top-0 z-50 flex flex-col border-r-2 border-elegant-gold/30 transform transition-transform duration-300 ease-in-out ${
+      sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+    }`}>
       {/* Logo Section */}
-      <div className="p-6 border-b-2 border-elegant-gold/30 bg-gradient-to-r from-elegant-gold to-elegant-darkGold">
-        <div className="flex items-center space-x-3">
-          <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
-            <span className="text-elegant-darkGold text-2xl font-bold font-elegant">E</span>
+      <div className="p-4 sm:p-6 border-b-2 border-elegant-gold/30 bg-gradient-to-r from-elegant-gold to-elegant-darkGold">
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
+            <span className="text-elegant-darkGold text-lg sm:text-2xl font-bold font-elegant">E</span>
           </div>
-          <div>
-            <h2 className="text-xl font-bold text-white font-elegant">Elegant Stitches</h2>
-            <p className="text-white/90 text-sm">Admin Dashboard</p>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-lg sm:text-xl font-bold text-white font-elegant truncate">Elegant Stitches</h2>
+            <p className="text-white/90 text-xs sm:text-sm truncate">Admin Dashboard</p>
           </div>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-3 overflow-y-auto">
+      <nav className="flex-1 p-2 sm:p-3 overflow-y-auto">
         <div className="space-y-1">
           <h3 className="text-xs font-bold text-elegant-darkGold uppercase tracking-wider mb-2 px-2">
             🎯 Main Menu
@@ -46,22 +52,22 @@ function ModernSidebar({ activeView, setActiveView, setSelectedOrder, orders, up
             <button
               key={item.id}
               onClick={() => handleNavigation(item.id)}
-              className={`group w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 ${
+              className={`group w-full flex items-center space-x-2 sm:space-x-3 px-2 sm:px-3 py-2 sm:py-3 rounded-lg transition-all duration-300 transform hover:scale-105 touch-manipulation ${
                 activeView === item.id
                   ? 'bg-gradient-to-r from-elegant-gold to-elegant-darkGold text-white shadow-lg border-2 border-elegant-gold'
                   : 'text-elegant-darkGold hover:bg-white hover:shadow-md border-2 border-transparent hover:border-elegant-gold/30'
               }`}
             >
-              <div className={`p-1.5 rounded-lg transition-all duration-300 ${
+              <div className={`p-1 sm:p-1.5 rounded-lg transition-all duration-300 flex-shrink-0 ${
                 activeView === item.id 
                   ? 'bg-white/20' 
                   : 'bg-elegant-gold/10 group-hover:bg-elegant-gold/20'
               }`}>
-                <span className="text-xl">{item.icon}</span>
+                <span className="text-lg sm:text-xl">{item.icon}</span>
               </div>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-sm">{item.label}</div>
-                <div className={`text-xs ${
+              <div className="flex-1 text-left min-w-0">
+                <div className="font-semibold text-xs sm:text-sm truncate">{item.label}</div>
+                <div className={`text-xs truncate ${
                   activeView === item.id 
                     ? 'text-white/80' 
                     : 'text-elegant-darkGold/70 group-hover:text-elegant-darkGold'
@@ -70,7 +76,7 @@ function ModernSidebar({ activeView, setActiveView, setSelectedOrder, orders, up
                 </div>
               </div>
               {activeView === item.id && (
-                <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-white rounded-full animate-pulse flex-shrink-0"></div>
               )}
             </button>
           ))}

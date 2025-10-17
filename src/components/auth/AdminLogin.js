@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 function AdminLogin() {
   const { login } = useAuth();
@@ -203,12 +203,12 @@ function AdminLogin() {
 
           {/* Back to Site Link */}
           <div className="mt-6 text-center">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-sm text-[#4a3b30] hover:text-elegant-gold transition font-medium"
             >
               ← Back to Elegant Stitches
-            </a>
+            </Link>
           </div>
         </div>
 

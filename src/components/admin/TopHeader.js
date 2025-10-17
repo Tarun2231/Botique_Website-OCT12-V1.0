@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-function TopHeader({ searchTerm, setSearchTerm, orders, updateOrder }) {
+function TopHeader({ searchTerm, setSearchTerm, orders, updateOrder, sidebarOpen, setSidebarOpen }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -26,21 +26,33 @@ function TopHeader({ searchTerm, setSearchTerm, orders, updateOrder }) {
   };
 
   return (
-    <div className="bg-white shadow-sm border-b border-elegant-gold/20 px-8 py-4">
+    <div className="bg-white shadow-sm border-b border-elegant-gold/20 px-3 sm:px-4 lg:px-8 py-3 sm:py-4">
       <div className="flex items-center justify-between">
-        {/* Left side - Welcome message */}
-        <div>
-          <h1 className="text-2xl font-bold text-elegant-darkGold font-elegant">
-            Welcome back, {user?.username || 'Admin'}!
-          </h1>
-          <p className="text-elegant-darkGold/60 text-sm mt-1">
-            {getCurrentDate()}
-          </p>
+        {/* Left side - Mobile menu button and Welcome message */}
+        <div className="flex items-center space-x-2 sm:space-x-4">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="lg:hidden p-2 rounded-lg bg-elegant-cream border border-elegant-gold/30 hover:border-elegant-gold/50 transition-colors touch-manipulation"
+          >
+            <svg className="w-5 h-5 sm:w-6 sm:h-6 text-elegant-darkGold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          
+          <div className="min-w-0 flex-1">
+            <h1 className="text-sm sm:text-lg lg:text-2xl font-bold text-elegant-darkGold font-elegant truncate">
+              Welcome back, {user?.username || 'Admin'}!
+            </h1>
+            <p className="text-elegant-darkGold/60 text-xs lg:text-sm mt-0.5 sm:mt-1 truncate">
+              {getCurrentDate()}
+            </p>
+          </div>
         </div>
 
-        {/* Center - Search */}
-        <div className="flex-1 max-w-md mx-8">
-          <div className="relative">
+        {/* Center - Search (hidden on mobile) */}
+        <div className="hidden md:flex flex-1 max-w-md mx-8">
+          <div className="relative w-full">
             <input
               type="text"
               placeholder="Search orders, clients..."
@@ -57,19 +69,19 @@ function TopHeader({ searchTerm, setSearchTerm, orders, updateOrder }) {
         </div>
 
         {/* Right side - User Profile */}
-        <div className="relative">
+        <div className="relative flex-shrink-0">
           <button
             onClick={() => setShowUserMenu(!showUserMenu)}
-            className="flex items-center space-x-3 bg-elegant-cream rounded-lg p-2 border border-elegant-gold/20 hover:border-elegant-gold/40 transition-all duration-300"
+            className="flex items-center space-x-1 sm:space-x-2 lg:space-x-3 bg-elegant-cream rounded-lg p-1.5 sm:p-2 border border-elegant-gold/20 hover:border-elegant-gold/40 transition-all duration-300 touch-manipulation"
           >
-            <div className="w-8 h-8 bg-gradient-to-br from-elegant-darkGold to-elegant-gold rounded-lg flex items-center justify-center text-white font-bold text-sm">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-elegant-darkGold to-elegant-gold rounded-lg flex items-center justify-center text-white font-bold text-xs sm:text-sm">
               {user?.username?.charAt(0).toUpperCase() || 'A'}
             </div>
-            <div className="text-left">
+            <div className="text-left hidden sm:block">
               <p className="font-semibold text-elegant-darkGold text-sm">{user?.username || 'Admin'}</p>
               <p className="text-xs text-elegant-darkGold/60">Administrator</p>
             </div>
-            <svg className="w-4 h-4 text-elegant-darkGold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-elegant-darkGold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>

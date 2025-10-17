@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -9,6 +11,11 @@ function Navbar() {
       element.scrollIntoView({ behavior: 'smooth' });
       setIsOpen(false);
     }
+  };
+
+  const handleAdminClick = () => {
+    navigate('/admin');
+    setIsOpen(false);
   };
 
   return (
@@ -61,12 +68,12 @@ function Navbar() {
               Contact
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-elegant-gold group-hover:w-full transition-all duration-300"></span>
             </button>
-            <a 
-              href="/admin" 
+            <button 
+              onClick={handleAdminClick}
               className="bg-gradient-to-r from-elegant-gold to-elegant-darkGold text-white px-6 py-2 font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
             >
               Admin
-            </a>
+            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -121,12 +128,12 @@ function Navbar() {
             >
               Contact
             </button>
-            <a 
-              href="/admin" 
+            <button 
+              onClick={handleAdminClick}
               className="block w-full text-left px-3 py-2 bg-gradient-to-r from-elegant-gold to-elegant-darkGold text-white rounded-md font-semibold hover:opacity-90 transition"
             >
               Admin Panel
-            </a>
+            </button>
           </div>
         </div>
       )}

@@ -18,6 +18,7 @@ function AdminDashboard({ orders, setOrders }) {
   const [filterStatus, setFilterStatus] = useState('all');
   const [realStats, setRealStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Listen for navigation events from ClientManagement
   useEffect(() => {
@@ -171,22 +172,34 @@ function AdminDashboard({ orders, setOrders }) {
 
   return (
     <div className="min-h-screen bg-elegant-cream flex">
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+      
       <ModernSidebar 
         activeView={activeView} 
         setActiveView={setActiveView} 
         setSelectedOrder={setSelectedOrder}
         orders={orders}
         updateOrder={updateOrder}
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
       />
       
-      <div className="flex-1 ml-72">
+      <div className="flex-1 lg:ml-72 sm:ml-80">
         <TopHeader 
           searchTerm={searchTerm} 
           setSearchTerm={setSearchTerm}
           orders={orders}
           updateOrder={updateOrder}
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
         />
-        <div className="p-8">
+        <div className="p-3 sm:p-4 lg:p-8">
 
           {activeView === 'overview' && (
             <AirlineStyleDashboard 
